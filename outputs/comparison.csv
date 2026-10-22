@@ -1,0 +1,4 @@
+,export_price,import_price,erm_margin,system cost G$,CO2 in-state Mt,CO2 incl. imports Mt,CO2 price $/t,avg CA price $/MWh,solar GW,new battery GW,gas (CCGT+OCGT+CCS) GW,exports TWh
+reference,40,60,0.15,16.72,31.11,40.94,50.43,49.04,88.14,0.0,27.72,19.72
+reference_exports50,50,60,0.15,16.5,31.11,40.6,46.3,48.84,90.14,0.0,27.55,25.1
+reference_wholesale_exports,EIA wholesale (~168 avg),60,0.15,6.7,31.12,41.8,57.23,53.55,84.62,0.0,34.82,88.55

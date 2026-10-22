@@ -1,0 +1,14 @@
+# ====================================================================
+# Overlay on config.california.yaml for running off Sherlock.
+# ====================================================================
+# The GODEEEP historical CFs for 2019 only exist on the Oak mirror
+# (/oak/stanford/...); Zenodo publishes 2012 only. This swaps the
+# renewable resource source to atlite with the prebuilt ERA5 2019
+# cutout from Zenodo (record 14611937, ~5 GB), so the weather year
+# stays 2019 and matches the SERVM demand weather year.
+#
+# The Snakemake command is in ASSUMPTIONS.md ("Building the network").
+# ====================================================================
+
+renewable:
+  dataset: atlite

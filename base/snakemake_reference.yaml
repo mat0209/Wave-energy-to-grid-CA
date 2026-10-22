@@ -1,0 +1,19 @@
+capacity_GW:
+  4hr_battery_storage: 0.0
+  8hr_battery_storage: 0.0
+  CCGT: 18.3227
+  CCGT-95CCS: 7.2202
+  OCGT: 2.1818
+  PHS: 3.7036
+  battery: 23.5385
+  biomass: 0.9254
+  coal: 0.0625
+  geothermal: 2.9418
+  hydro: 13.5692
+  nuclear: 2.958
+  offwind_floating: 0.0
+  oil: 0.5214
+  onwind: 6.9152
+  solar: 88.1414
+  unspecified_imports: 19.0347
+objective: 9882162206.247929

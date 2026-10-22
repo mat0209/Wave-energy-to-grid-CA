@@ -1,0 +1,30 @@
+# ====================================================================
+# Light single-horizon overlay on config.california.yaml (laptop run).
+# ====================================================================
+# Stack after config.california.atlite.yaml; the Snakemake command is in
+# ASSUMPTIONS.md ("Building the network").
+#
+# One planning horizon instead of four; 3h resolution and linearized
+# unit commitment are kept from the reference config.
+# 2035 is the SERVM forecast year closest to the 2036 study target.
+# ====================================================================
+
+run:
+  name: "california-2035"
+
+scenario:
+  planning_horizons: [2035]
+  # ERM = energy reserve margin (electricity.erm, 15% by default): every
+  # region must hold firm, energy-backed capacity above load at each step.
+  # The reference config has no reliability constraint (SAFE is a no-op).
+  opts: [REM-ERM-3h]
+
+# Exports at a flat price, like imports in the reference config. The base
+# value `wholesale` pulls an EIA series that is retail-priced (PyPSA-USA
+# issue #807): ~168 $/MWh vs ~54 $/MWh in-state, which drove ~89 TWh of
+# exports. 40 $/MWh ~ CAISO 2019 average day-ahead price (~38 $/MWh, DMM
+# 2019 annual report) and WEIM 2024 average (~40 $/MWh); it also stays
+# below the 60 $/MWh import price (no buy-to-resell arbitrage).
+electricity:
+  exports:
+    costs: 40

@@ -1,0 +1,8 @@
+# Solved networks and solver logs: large and regenerable from the notebook
+outputs/*/network.nc
+outputs/*/solver.log
+
+# OS / editor / Python
+.DS_Store
+__pycache__/
+.ipynb_checkpoints/

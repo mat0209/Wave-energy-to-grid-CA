@@ -1,0 +1,4 @@
+[submodule "pypsa-usa"]
+	path = pypsa-usa
+	url = https://github.com/mat0209/pypsa-usa.git
+	branch = wave-to-grid
