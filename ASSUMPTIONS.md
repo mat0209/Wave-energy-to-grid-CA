@@ -58,6 +58,11 @@ pypsa-usa/.venv/bin/python scripts/update_base.py   # copy the new network into 
   (`~/pypsa-usa/.venv/bin/python -m snakemake`).
 - Zenodo downloads are often cut off. If a retrieve rule fails, download the file with `curl -C -` in a loop.
 - Results: `pypsa-usa/workflow/results/california-2035/`.
+- **58-county variant:** add `../../configs/config.california.county.yaml` after the light config to get 58 county
+  nodes instead of 4 ReEDS zones. With 4 zones, one zone holds the whole coast from Del Norte to Santa Barbara plus
+  the Bay Area, so wave power would reach the Bay Area with no transmission limit. It is a separate run
+  (`results/california-2035-county/`). The floating offshore wind profiles by county take ~2 h, and the solve needs
+  ~13–15 GB of RAM.
 
 ## Scenario notebook
 

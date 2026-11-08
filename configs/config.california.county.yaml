@@ -1,0 +1,27 @@
+# ====================================================================
+# County-resolution overlay (58 California nodes instead of 4 zones).
+# ====================================================================
+# Stack after config.california.light.yaml. Uses the county block that
+# the reference config ships commented out: `simpl: county` selects the
+# county-FIPS fast path in cluster_simpl, and the imports/ITL machinery
+# picks the county-level NARIS2024 transfer limits.
+#
+# Why: with ReEDS zones, p9 holds 44 counties, including the whole coast
+# from Del Norte to Santa Barbara plus the Bay Area, so wave power at
+# Humboldt would reach the Bay Area with no transmission limit.
+#
+# Separate run name: the substation network (elec_b.nc) must be rebuilt
+# with county boundaries (the reeds_zone build drops the county column),
+# and sharing it would invalidate the 4-zone base. Downloaded data and
+# cutouts are shared; outputs are named elec_scounty_c58_*.
+# ====================================================================
+
+run:
+  name: "california-2035-county"
+
+scenario:
+  clusters: [58]
+  simpl: ['county']
+
+model_topology:
+  topological_boundaries: 'county'
