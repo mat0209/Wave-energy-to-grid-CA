@@ -33,8 +33,8 @@ OUTPUTS = ROOT / "outputs"
 BASE = ROOT / "base"
 # Prepared networks a scenario can start from: name -> (network, merged Snakemake config)
 NETWORKS = {
-    "zones4": (BASE / "network_2035.nc", BASE / "config_2035.yaml"),  # 4 ReEDS zones (base)
-    "hybrid25": (BASE / "network_2035_hybrid25.nc", BASE / "config_2035_hybrid25.yaml"),  # 25 nodes
+    "zones4": (BASE / "network_2035.nc", BASE / "config_2035.yaml"),  # 4 ReEDS zones
+    "hybrid25": (BASE / "network_2035_hybrid25.nc", BASE / "config_2035_hybrid25.yaml"),  # 25 nodes (base)
 }
 SOLVE_TIME = {"zones4": "2-4 min", "hybrid25": "~15 min, close other heavy apps"}
 GEO = BASE / "geo"

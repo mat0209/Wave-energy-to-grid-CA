@@ -41,9 +41,9 @@ OPTIONS = {
     **{option: g.node for option, g in GROUPINGS.items()},
 }
 LABELS = {
-    "zones4": "A. 4 ReEDS zones (current base)",
+    "zones4": "A. 4 ReEDS zones",
     "county58": "B. 58 counties",
-    "hybrid25": "C. 25 nodes: coastal counties + inland groups",
+    "hybrid25": "C. 25 nodes (base): coastal counties + inland groups",
 }
 SHORT = {"zones4": "A", "county58": "B", "hybrid25": "C"}
 WEAK_MW = 400  # coastal corridors below this are highlighted

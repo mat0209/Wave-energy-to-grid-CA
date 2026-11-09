@@ -9,17 +9,17 @@ expansion model.
 **Approach:**
 
 1. Build a California base case for 2035 with PyPSA-USA (2035 is the CPUC demand year closest to 2036).
-2. Add wave power on the coastal zones, with a resource profile and costs, as scenarios.
+2. Add wave power on the coastal nodes, with a resource profile and costs, as scenarios.
 3. Compare scenarios with and without wave energy.
 
-**Status:** the 4-zone base case runs and is checked. A 25-node network that keeps the coastal counties is solved and compared with the 58-county model; the base for the wave study is still to be chosen (see `notebooks/spatial_resolution.ipynb`). Wave scenarios are next.
+**Status:** the base case runs and is checked. It uses 25 nodes that keep the coastal counties, chosen after comparing it with the 4-zone and 58-county models (see `notebooks/spatial_resolution.ipynb`). Wave scenarios are next.
 
 ## Repository layout
 
 - `notebooks/california_2035.ipynb`: runs one scenario (name, network and parameters at the top). The logic is in `notebooks/ca_helpers.py`.
-- `notebooks/spatial_resolution.ipynb`: compares ways to split California into nodes (4 zones, 58 counties, 25-node proposal) with run time and results for each, and lists the open decisions. It never solves anything. The logic is in `notebooks/spatial_helpers.py`.
+- `notebooks/spatial_resolution.ipynb`: compares ways to split California into nodes (4 zones, 58 counties, the 25-node base) with run time and results for each, and lists the open decisions. It never solves anything. The logic is in `notebooks/spatial_helpers.py`.
 - `outputs/<scenario>/`: tables (CSV) and figures (PNG) of each scenario, plus `outputs/comparison.csv`.
-- `base/`: the 2035 networks built by PyPSA-USA (4 zones, 25 nodes), so the notebooks run without rebuilding them. `base/spatial/` holds the small data behind the spatial-resolution notebook.
+- `base/`: the 2035 networks built by PyPSA-USA (25-node base, 4 zones), so the notebooks run without rebuilding them. `base/spatial/` holds the small data behind the spatial-resolution notebook.
 - `configs/`: PyPSA-USA config overlays used to build `base/`, the 58-county and 25-node overlays, and the 25-node county grouping.
 - `ASSUMPTIONS.md`: model setup, changes vs. the PyPSA-USA reference, known issues, how to rebuild `base/`.
 - `pypsa-usa/`: PyPSA-USA, as a git submodule pointing to our fork ([mat0209/pypsa-usa](https://github.com/mat0209/pypsa-usa), branch `wave-to-grid`).
@@ -53,7 +53,7 @@ expansion model.
    ```
 
 5. **Run:** open `notebooks/california_2035.ipynb`, select the kernel `pypsa-usa/.venv/bin/python`, set `SCENARIO`
-   to a new name and run all cells. A 4-zone solve takes 2–4 min and 3–5 GB of RAM.
+   to a new name and run all cells. A solve takes ~15 min and over 6 GB of RAM, so close other heavy apps. For quick tests, `NETWORK = "zones4"` takes 2–4 min and 3–5 GB.
 
 ## Working together
 
