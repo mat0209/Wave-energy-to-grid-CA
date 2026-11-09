@@ -1,4 +1,4 @@
 option,nodes,corridors,rows_M,cols_M,nonzeros_M,barrier_s,factor_GB,solve_total_min,peak_ram_GB,objective_GUSD,system_cost_GUSD,grid_capex_GUSD,co2_price_usd_t,avg_ca_price_usd_MWh,exports_TWh,price_spread_usd_MWh,interface_limits_applied
 zones4,4,3,5.913,2.599,11.654,85.08,2.0,1.919,,9.882,16.72,0.956,50.43,49.04,19.72,1.197,True
-county58,58,130,19.629,7.981,41.806,867.71,10.0,15.818,,9.515,18.94,3.425,47.07,49.17,41.05,7.175,False
+county58,58,130,19.646,7.981,41.958,4084.55,10.0,69.912,,9.879,19.3,3.425,48.05,49.18,20.77,9.109,True
 hybrid25,25,44,12.037,4.918,25.364,735.61,6.0,13.8,5.3,9.869,18.68,2.86,45.87,49.02,20.37,9.004,True

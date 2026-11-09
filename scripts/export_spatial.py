@@ -15,6 +15,7 @@ base/spatial/ holds:
     zone_links.csv      directed zone-to-zone transfer limits of the 4-zone model (NARIS 2024, zone level)
     hybrid25_links.csv  directed node-to-node limits of the 25-node network, with use in the 58-county and 25-node runs
     hybrid25_nodes.csv  average price per node of the 25-node run (once solved)
+    node_mix.csv        generation and capacity per 25-node node, in the 58-county and 25-node runs (once solved)
     runs.csv            model size, solve time, memory and headline results of each solved run
     capacity.csv        optimal capacity by carrier (GW) of each solved run
 """
@@ -73,6 +74,19 @@ def ac_buses(n):
 def mean_price(n):
     w = n.snapshot_weightings.objective
     return n.buses_t.marginal_price[ac_buses(n)].mul(w, axis=0).sum() / w.sum()
+
+
+def node_mix(n, node_of_bus):
+    """Generation (TWh) and solar and gas capacity (GW) per node."""
+    g = n.generators[n.generators.bus.isin(ac_buses(n))]
+    node = g.bus.map(node_of_bus)
+    energy = n.generators_t.p[g.index].mul(n.snapshot_weightings.objective, axis=0).sum()
+    gas = g.carrier.isin(["CCGT", "CCGT-95CCS", "OCGT"])
+    return pd.DataFrame({
+        "generation_TWh": energy.groupby(node).sum() / 1e6,
+        "solar_GW": g.p_nom_opt[g.carrier == "solar"].groupby(node).sum() / 1e3,
+        "gas_GW": g.p_nom_opt[gas].groupby(node).sum() / 1e3,
+    }).fillna(0)
 
 
 def congested_share(n, links):
@@ -152,8 +166,13 @@ if hybrid_n is not None:
     hybrid_links["use_in_25_node_run"] = hybrid_n.links_t.p0[H.index].mean() / H.p_nom
     hybrid_links["congested_share"] = congested_share(hybrid_n, hybrid_n.links.loc[H.index])
     mean_price(hybrid_n).rename("price_usd_MWh").rename_axis("node").round(3).to_csv(OUT / "hybrid25_nodes.csv")
+    nodes_of_hybrid = pd.Series(ac_buses(hybrid_n), index=ac_buses(hybrid_n))
+    mix = pd.concat({"county58": node_mix(county_n, groups), "hybrid25": node_mix(hybrid_n, nodes_of_hybrid)}, axis=1)
+    mix.columns = [f"{option}_{col}" for option, col in mix.columns]
+    mix.rename_axis("node").round(3).to_csv(OUT / "node_mix.csv")
 else:
     (OUT / "hybrid25_nodes.csv").unlink(missing_ok=True)
+    (OUT / "node_mix.csv").unlink(missing_ok=True)
 hybrid_links.round(3).to_csv(OUT / "hybrid25_links.csv")
 
 

@@ -42,23 +42,27 @@ to Santa Barbara, so coastal grid limits (e.g. Humboldt can export only 216 MW) 
 `notebooks/spatial_resolution.ipynb` compares the options and lists the open decisions.
 
 - **58 counties:** overlay `configs/config.california.county.yaml`, run `california-2035-county` (separate run: the
-  4-zone substation network lacks the county column). Solves in ~15 min; Gurobi's factorisation needs ~10 GB, so
-  it is at the limit of a 17 GB laptop. Building the floating offshore wind profile by county takes ~2 h.
+  4-zone substation network lacks the county column). Its latest solve took ~30 min of computing (keep the Mac awake);
+  Gurobi's factorisation needs ~10 GB, so it is at the limit of a 17 GB laptop. Building the floating offshore wind
+  profile by county takes ~2 h.
 - **25 nodes:** coastal counties kept, inland counties grouped (`configs/county_groups_25.csv`, overlay
   `configs/config.california.hybrid25.yaml`, same run as the 58-county model so its profiles are reused). Built into
   `base/network_2035_hybrid25.nc` with our fork's `model_topology.county_groups`. Select it with `NETWORK = "hybrid25"`
   in the scenario notebook. Renewables keep their county-level resource; conventional plants are aggregated by node.
   Solved in ~14 min (Gurobi factorisation ~6 GB). Against the 4-zone base: cost without AC grid +0.4%, CO2 price 46 vs
-  50 $/t, near-identical mix. Once the wave profiles give candidate sites and capacities, well-connected coastal counties may be merged (rule in
-  the notebook: own node if export limit < 2 × largest wave capacity tested there).
+  50 $/t, near-identical mix. Against the 58-county model: cost without AC grid -0.4%, exports -2%, coastal prices (without Del Norte) within
+  0.18 $/MWh on average. It differs at San Diego (17.6 vs 5.5 TWh generated, limits into it scaled from 6,083 to 1,998 MW),
+  and in the North Bay and Mendocino, where it probably overstates imports and congestion (notebook, section 5). Once the
+  wave profiles give candidate sites and capacities, well-connected coastal counties may be merged (rule in the notebook:
+  own node if export limit < 2 × largest wave capacity tested there).
 - **Del Norte** has no link to any other California county in the NARIS 2024 data, only to Oregon (221 MW out).
 - Summing county-level transfer limits overstates zone-level NARIS limits by 1.15× to 3×. In the 25-node network,
   corridors crossing a ReEDS zone boundary are scaled down per direction so each boundary total equals the zone-level
   limit. Corridors inside a zone keep the plain sum, which may still be too generous.
 - **Interface limits in county mode:** PyPSA-USA skipped all six CAISO interface limits with county nodes, because
   they name ReEDS zones and the trade buses are named after counties. Fixed in our fork (`external_zone` on trade
-  buses). The 58-county result in `base/spatial/` predates the fix: exports reach 41 TWh and 20.8 GW (A: 20 TWh,
-  10.1 GW), so it is not comparable until re-solved (command in the notebook, section 4).
+  buses). Re-solving the 58-county model with the fix took exports from 41 to 20.8 TWh and their peak from 20.8 to
+  10.5 GW (A: 20 TWh, 10.1 GW). Command in the notebook, section 4.
 - **System cost across resolutions:** it includes the annualised cost of the existing AC grid, recomputed link by link,
   so it changes with the number of nodes (0.96 G$ with 4 zones, 3.4 G$ with 58 counties). Compare costs without it.
 

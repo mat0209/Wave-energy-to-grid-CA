@@ -12,7 +12,7 @@ expansion model.
 2. Add wave power on the coastal zones, with a resource profile and costs, as scenarios.
 3. Compare scenarios with and without wave energy.
 
-**Status:** the 4-zone base case runs and is checked. A 25-node network that keeps the coastal counties is solved; the 58-county run must be re-solved before we choose the base for the wave study (see `notebooks/spatial_resolution.ipynb`). Wave scenarios are next.
+**Status:** the 4-zone base case runs and is checked. A 25-node network that keeps the coastal counties is solved and compared with the 58-county model; the base for the wave study is still to be chosen (see `notebooks/spatial_resolution.ipynb`). Wave scenarios are next.
 
 ## Repository layout
 

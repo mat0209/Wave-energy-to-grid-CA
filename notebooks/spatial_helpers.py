@@ -292,6 +292,22 @@ def node_prices():
     return out.sort_values("difference ($/MWh)")
 
 
+def node_mix():
+    """Where generation and capacity sit per 25-node node, 58-county run (B) vs 25-node run (C)."""
+    mix = pd.read_csv(SPATIAL / "node_mix.csv", index_col="node")
+    out = pd.DataFrame({
+        "name": node_names("hybrid25"),
+        "generation B (TWh)": mix.county58_generation_TWh.round(1),
+        "generation C (TWh)": mix.hybrid25_generation_TWh.round(1),
+    })
+    out["difference (TWh)"] = (mix.hybrid25_generation_TWh - mix.county58_generation_TWh).round(1)
+    out["solar B (GW)"] = mix.county58_solar_GW.round(2)
+    out["solar C (GW)"] = mix.hybrid25_solar_GW.round(2)
+    out["gas B (GW)"] = mix.county58_gas_GW.round(2)
+    out["gas C (GW)"] = mix.hybrid25_gas_GW.round(2)
+    return out.sort_values("difference (TWh)", key=abs, ascending=False)
+
+
 # ---------------------------------------------------------------------------
 # Figures
 # ---------------------------------------------------------------------------

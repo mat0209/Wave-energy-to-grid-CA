@@ -1,7 +1,7 @@
 carrier,zones4,county58,hybrid25
-CCGT,18.323,18.531,18.258
-CCGT-95CCS,7.22,6.263,7.321
-OCGT,2.182,1.689,1.394
+CCGT,18.323,18.816,18.258
+CCGT-95CCS,7.22,7.629,7.321
+OCGT,2.182,1.15,1.394
 biomass,0.925,0.925,0.925
 coal,0.062,0.062,0.062
 geothermal,2.942,2.942,2.942
@@ -10,7 +10,7 @@ nuclear,2.958,2.958,2.958
 offwind_floating,0.0,0.0,0.0
 oil,0.521,0.521,0.521
 onwind,6.915,7.528,7.528
-solar,88.141,103.014,88.141
+solar,88.141,87.586,88.141
 unspecified_imports,19.035,19.666,19.666
 4hr_battery_storage,0.0,0.0,0.0
 8hr_battery_storage,0.0,0.0,0.0
