@@ -127,6 +127,16 @@ pypsa-usa/.venv/bin/python scripts/update_base.py   # copy the new network into 
 - **Parameters** at the top of the notebook: `export_price`, `import_price`, `erm_margin`. They are applied to the
   prepared network at solve time, so changing them needs no Snakemake rebuild. Changing the export price in the
   notebook matches a full Snakemake rebuild: relative objective difference 2×10⁻⁷, identical capacities.
+- **Renewable policy** (`renewables`, off by default). Eligible carriers: solar, onshore wind, floating offshore wind,
+  geothermal, biomass, hydro (wave once added), both in California and as out-of-state contracted resources on the
+  import buses. Nuclear counts only with `nuclear_counts: True` (SB 100 counts it as clean).
+  - `"annual"`: over the year, eligible generation minus exports ≥ `renewable_share` × California load. Exports are
+    subtracted so renewable power sold out of state does not count. With 1.0, fossil and unspecified imports can
+    only cover storage and transmission losses over the year, but gas can still run in some hours.
+  - `"strict"`: every hour. Fossil plants (CCGT, OCGT, CCS, coal, oil) and unspecified imports are retired
+    (`p_nom_max = 0`), so they give no reserve-margin capacity either. Nuclear too, unless `nuclear_counts`.
+  - The `renewables` table and the `renewable share %` metric report the share for every scenario. The base case
+    is at 53% (net of exports).
 - **Solve:** reuses PyPSA-USA's `solve_network.py`, so the constraints are the same as in Snakemake. With the base
   parameters and the 4-zone network, the notebook checks that it reproduces the Snakemake result exactly
   (`base/snakemake_reference.yaml`). There is no such reference for the 25-node network.
