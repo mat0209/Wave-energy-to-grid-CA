@@ -971,7 +971,7 @@ plotting:
     trn-elec-dr: Electric Demand Response
     trn-elec-veh-dr: Electric Demand Response
 api:
-  eia: gAaET0ufc4KaRfuXgBzSOrRH5Vsde5pWmibF1R7x
+  eia: null
 sector:
   co2:
     sequestration_potential: 0

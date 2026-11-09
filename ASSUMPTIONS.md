@@ -35,6 +35,53 @@ Between 40 and 50 $/MWh the results barely move. The large shift comes from remo
 - The ERM counts the 19 GW of imports as firm capacity.
 - Gas with carbon capture (CCS) can be built, with no cost for CO₂ transport and storage.
 
+## Spatial resolution (under study)
+
+The base uses the 4 California ReEDS zones. Zone p9 holds 44 counties, including the whole coast from Del Norte
+to Santa Barbara, so coastal grid limits (e.g. Humboldt can export only 216 MW) are invisible to the model.
+`notebooks/spatial_resolution.ipynb` compares the options and lists the open decisions.
+
+- **58 counties:** overlay `configs/config.california.county.yaml`, run `california-2035-county` (separate run: the
+  4-zone substation network lacks the county column). Solves in ~15 min; Gurobi's factorisation needs ~10 GB, so
+  it is at the limit of a 17 GB laptop. Building the floating offshore wind profile by county takes ~2 h.
+- **25 nodes:** coastal counties kept, inland counties grouped (`configs/county_groups_25.csv`, overlay
+  `configs/config.california.hybrid25.yaml`, same run as the 58-county model so its profiles are reused). Built into
+  `base/network_2035_hybrid25.nc` with our fork's `model_topology.county_groups`. Select it with `NETWORK = "hybrid25"`
+  in the scenario notebook. Renewables keep their county-level resource; conventional plants are aggregated by node.
+  Solved in ~14 min (Gurobi factorisation ~6 GB). Against the 4-zone base: cost without AC grid +0.4%, CO2 price 46 vs
+  50 $/t, near-identical mix. Once the wave profiles give candidate sites and capacities, well-connected coastal counties may be merged (rule in
+  the notebook: own node if export limit < 2 × largest wave capacity tested there).
+- **Del Norte** has no link to any other California county in the NARIS 2024 data, only to Oregon (221 MW out).
+- Summing county-level transfer limits overstates zone-level NARIS limits by 1.15× to 3×. In the 25-node network,
+  corridors crossing a ReEDS zone boundary are scaled down per direction so each boundary total equals the zone-level
+  limit. Corridors inside a zone keep the plain sum, which may still be too generous.
+- **Interface limits in county mode:** PyPSA-USA skipped all six CAISO interface limits with county nodes, because
+  they name ReEDS zones and the trade buses are named after counties. Fixed in our fork (`external_zone` on trade
+  buses). The 58-county result in `base/spatial/` predates the fix: exports reach 41 TWh and 20.8 GW (A: 20 TWh,
+  10.1 GW), so it is not comparable until re-solved (command in the notebook, section 4).
+- **System cost across resolutions:** it includes the annualised cost of the existing AC grid, recomputed link by link,
+  so it changes with the number of nodes (0.96 G$ with 4 zones, 3.4 G$ with 58 counties). Compare costs without it.
+
+Refresh `base/spatial/` after solving any of these runs. The 25-node run is read from `outputs/reference_hybrid25/`:
+
+```bash
+pypsa-usa/.venv/bin/python scripts/export_spatial.py
+```
+
+Rebuild the 25-node network from the clustering step (seconds), then copy it into `base/`:
+
+```bash
+cd pypsa-usa/workflow
+../.venv/bin/python -m snakemake \
+  resources/california-2035-county/networks/western/elec_scounty_c25_ec_lv1.0_REM-ERM-3h_E.nc \
+  -j2 --rerun-triggers mtime --forcerun cluster_network --configfile \
+  repo_data/config/config.california.yaml ../../configs/config.california.atlite.yaml \
+  ../../configs/config.california.light.yaml ../../configs/config.california.county.yaml \
+  ../../configs/config.california.hybrid25.yaml
+cd ../..
+pypsa-usa/.venv/bin/python scripts/update_base.py
+```
+
 ## Building the network (Snakemake)
 
 Only needed to change the network itself (year, zones, technologies, weather). Scenario parameters in the
@@ -73,11 +120,13 @@ pypsa-usa/.venv/bin/python scripts/update_base.py   # copy the new network into 
   prepared network at solve time, so changing them needs no Snakemake rebuild. Changing the export price in the
   notebook matches a full Snakemake rebuild: relative objective difference 2×10⁻⁷, identical capacities.
 - **Solve:** reuses PyPSA-USA's `solve_network.py`, so the constraints are the same as in Snakemake. With the base
-  parameters, the notebook checks that it reproduces the Snakemake result exactly (`base/snakemake_reference.yaml`).
+  parameters and the 4-zone network, the notebook checks that it reproduces the Snakemake result exactly
+  (`base/snakemake_reference.yaml`). There is no such reference for the 25-node network.
+- **Run stats:** each solve writes its time and the kernel's peak RAM to `outputs/<SCENARIO>/run_stats.yaml`. Restart the
+  kernel first for a clean reading. A 4-zone solve takes 2–4 min and 3–5 GB.
 - **Outputs:** `outputs/<SCENARIO>/` holds `parameters.yaml`, `metrics.csv`, the CSV tables and the PNG figures
   (in git), and the solved `network.nc` (not in git, ~40 MB). A result is reused only if its saved parameters match.
 - **Comparison:** the last cell builds `outputs/comparison.csv` from every scenario's `metrics.csv`.
-- Each solve takes ~1.5 min and 3–6 GB of RAM.
 
 `outputs/reference_exports50/` and `outputs/reference_wholesale_exports/` keep the earlier runs
 (exports at 50 $/MWh and at the EIA "wholesale" price).

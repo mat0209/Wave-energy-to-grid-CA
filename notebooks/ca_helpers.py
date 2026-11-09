@@ -6,10 +6,11 @@ builds result tables and figures.
 """
 
 import contextlib
-import copy
 import logging
 import os
+import resource
 import sys
+import time
 import warnings
 from pathlib import Path
 from types import SimpleNamespace
@@ -30,13 +31,18 @@ OUTPUTS = ROOT / "outputs"
 
 # base/ holds the Snakemake-built 2035 network (refresh with scripts/update_base.py)
 BASE = ROOT / "base"
-BASE_NETWORK = BASE / "network_2035.nc"
+# Prepared networks a scenario can start from: name -> (network, merged Snakemake config)
+NETWORKS = {
+    "zones4": (BASE / "network_2035.nc", BASE / "config_2035.yaml"),  # 4 ReEDS zones (base)
+    "hybrid25": (BASE / "network_2035_hybrid25.nc", BASE / "config_2035_hybrid25.yaml"),  # 25 nodes
+}
+SOLVE_TIME = {"zones4": "2-4 min", "hybrid25": "~15 min, close other heavy apps"}
 GEO = BASE / "geo"
 
 sys.path.insert(0, str(WORKFLOW / "scripts"))
 import solve_network as sn  # noqa: E402
 
-with open(BASE / "config_2035.yaml") as f:
+with open(NETWORKS["zones4"][1]) as f:
     CONFIG = yaml.safe_load(f)
 
 OPTS = [o for o in CONFIG["wildcards"]["opts"].split("-") if o]
@@ -91,9 +97,9 @@ def apply_params(n: pypsa.Network, params: dict) -> None:
     n.generators.loc[imports, "marginal_cost"] = float(params["import_price"])
 
 
-def solve(n: pypsa.Network, params: dict, log_path: Path) -> pypsa.Network:
+def solve(n: pypsa.Network, params: dict, log_path: Path, network: str = "zones4") -> pypsa.Network:
     """Solve exactly like the Snakemake solve_network rule, with scenario overrides in the config."""
-    config = copy.deepcopy(CONFIG)
+    config = yaml.safe_load(NETWORKS[network][1].read_text())
     config["electricity"]["erm"] = {"all": float(params["erm_margin"])}
     solving = config["solving"]
     # solve_network.py reads a global `snakemake` object; give it the fields it uses.
@@ -113,11 +119,19 @@ def solve(n: pypsa.Network, params: dict, log_path: Path) -> pypsa.Network:
     return n
 
 
-def run_scenario(name: str, params: dict, force: bool = False) -> pypsa.Network:
+def peak_ram_gb() -> float:
+    """Peak memory of this Python process since it started (restart the kernel for a clean reading)."""
+    peak = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
+    return peak / 1e9 if sys.platform == "darwin" else peak / 1e6  # bytes on macOS, kB on Linux
+
+
+def run_scenario(name: str, params: dict, force: bool = False, network: str = "zones4") -> pypsa.Network:
     """Solve a scenario (or load it from outputs/<name>/ if it was solved with the same parameters)."""
     out = OUTPUTS / name
     out.mkdir(parents=True, exist_ok=True)
     path, params_path = out / "network.nc", out / "parameters.yaml"
+    if network != "zones4":
+        params = {**params, "network": network}
 
     if path.exists() and not force and params_path.exists():
         saved = yaml.safe_load(params_path.read_text())
@@ -126,19 +140,25 @@ def run_scenario(name: str, params: dict, force: bool = False) -> pypsa.Network:
             return load(path)
         print(f"[{name}] parameters changed since the last run -> re-solving")
 
-    print(f"[{name}] solving (~1.5 min)...")
-    n = load(BASE_NETWORK)
+    print(f"[{name}] solving ({SOLVE_TIME[network]})...")
+    start = time.time()
+    n = load(NETWORKS[network][0])
     apply_params(n, params)
-    n = solve(n, params, out / "solver.log")
+    n = solve(n, params, out / "solver.log", network)
+    stats = {"network": network, "solve_minutes": round((time.time() - start) / 60, 1), "peak_ram_GB": round(peak_ram_gb(), 1)}
     with quiet():
         n.export_to_netcdf(path)
     params_path.write_text(yaml.safe_dump(params, sort_keys=False))
-    print(f"[{name}] solved, objective {n.objective:,.0f} $")
+    (out / "run_stats.yaml").write_text(yaml.safe_dump(stats, sort_keys=False))
+    print(f"[{name}] solved in {stats['solve_minutes']} min, peak RAM {stats['peak_ram_GB']} GB, objective {n.objective:,.0f} $")
     return n
 
 
-def check_against_snakemake(n: pypsa.Network, params: dict) -> None:
+def check_against_snakemake(n: pypsa.Network, params: dict, network: str = "zones4") -> None:
     """With the base parameters, the notebook must reproduce the Snakemake solve."""
+    if network != "zones4":
+        print(f"No Snakemake reference for network '{network}': skipping the reproduction check.")
+        return
     if params != BASE_PARAMS:
         print(f"Parameters differ from the Snakemake base ({BASE_PARAMS}): skipping the reproduction check.")
         return
@@ -472,13 +492,30 @@ def _pie(ax, x, y, values, colors, diameter):
     inset.axis("off")
 
 
+def node_shapes(buses):
+    """Polygons of the California nodes: ReEDS zones, or counties dissolved into their county groups."""
+    import geopandas as gpd
+
+    reeds = gpd.read_file(GEO / "reeds_shapes.geojson").set_index("name")
+    if buses.isin(reeds.index).all():
+        return reeds.loc[list(buses)]
+    counties = gpd.read_file(BASE / "spatial" / "counties.geojson").set_index("bus")
+    groups = pd.read_csv(ROOT / "configs" / "county_groups_25.csv", comment="#", index_col="bus")
+    return counties.join(groups.node).dissolve("node").loc[list(buses)]
+
+
 def fig_network(n):
-    """Map: 2035 optimal capacity per California zone (pies), inter-zone transmission, interties."""
+    """Map: 2035 optimal capacity per California node (pies), inter-node transmission, interties.
+
+    Interties are only drawn for ReEDS-zone networks: with county nodes the neighbours are counties.
+    """
     import geopandas as gpd
 
     buses = ca_buses(n)
     reeds = gpd.read_file(GEO / "reeds_shapes.geojson").set_index("name")
     states = gpd.read_file(GEO / "state_boundaries.geojson")
+    shapes = node_shapes(buses)
+    many = len(buses) > 8  # smaller pies and no per-corridor labels when there are many nodes
 
     links = n.links
     internal = links[links.bus0.isin(buses) & links.bus1.isin(buses)]
@@ -487,8 +524,10 @@ def fig_network(n):
     neighbors = sorted({b.split("_")[0] for b in imp.bus0} | {b.split("_")[0] for b in exp.bus1})
 
     fig, ax = plt.subplots(figsize=(9, 9))
-    reeds.loc[[z for z in neighbors if z in reeds.index]].plot(ax=ax, color="#f3f3f3", edgecolor="white", linewidth=1)
-    reeds.loc[list(buses)].plot(ax=ax, color="#e2e2e2", edgecolor="white", linewidth=1.5)
+    known = [z for z in neighbors if z in reeds.index]
+    if known:
+        reeds.loc[known].plot(ax=ax, color="#f3f3f3", edgecolor="white", linewidth=1)
+    shapes.plot(ax=ax, color="#e2e2e2", edgecolor="white", linewidth=1.5)
     states.boundary.plot(ax=ax, color="#bdbdbd", linewidth=0.5)
     xy = n.buses.loc[buses, ["x", "y"]]
 
@@ -497,7 +536,7 @@ def fig_network(n):
     from shapely.geometry import Point
     from shapely.ops import nearest_points
 
-    ca_shape = reeds.loc[list(buses)].union_all()
+    ca_shape = shapes.union_all()
     ca_center = ca_shape.centroid
     for z in neighbors:
         if z not in reeds.index:
@@ -527,8 +566,9 @@ def fig_network(n):
     for (b0, b1), cap in (pairs.groupby("pair").p_nom_opt.max() / 1e3).items():
         ax.plot(xy.loc[[b0, b1], "x"], xy.loc[[b0, b1], "y"], color="#444444", linewidth=1 + 0.6 * cap, zorder=3,
                 solid_capstyle="round")
-        ax.text(xy.loc[[b0, b1], "x"].mean() + 0.25, xy.loc[[b0, b1], "y"].mean(), f"{cap:.1f} GW", fontsize=8,
-                color="#222222", zorder=4, bbox={"facecolor": "white", "edgecolor": "none", "alpha": 0.8, "pad": 1})
+        if not many:
+            ax.text(xy.loc[[b0, b1], "x"].mean() + 0.25, xy.loc[[b0, b1], "y"].mean(), f"{cap:.1f} GW", fontsize=8,
+                    color="#222222", zorder=4, bbox={"facecolor": "white", "edgecolor": "none", "alpha": 0.8, "pad": 1})
 
     # Pies: optimal capacity by carrier at each California zone
     cap = pd.concat([
@@ -537,15 +577,16 @@ def fig_network(n):
     ]).div(1e3)
     cap = cap[cap > 0.05]
     order = lambda c: STACK_ORDER.index(c) if c in STACK_ORDER else len(STACK_ORDER)  # noqa: E731
-    for bus in buses:
+    pie_scale = PIE_SCALE / 2 if many else PIE_SCALE
+    for bus in buses.intersection(cap.index.get_level_values("bus")):  # a small node can have no pie (Del Norte)
         s = cap.xs(bus, level="bus")
         s = s.loc[sorted(s.index, key=order)]
         _pie(ax, xy.at[bus, "x"], xy.at[bus, "y"], s.values, [color(n, c) for c in s.index],
-             PIE_SCALE * np.sqrt(s.sum()))
+             pie_scale * np.sqrt(s.sum()))
         total = s.sum()
-        ax.text(xy.at[bus, "x"] - PIE_SCALE * np.sqrt(total) / 2 - 0.15, xy.at[bus, "y"],
+        ax.text(xy.at[bus, "x"] - pie_scale * np.sqrt(total) / 2 - 0.05, xy.at[bus, "y"],
                 f"{bus}\n{total:.0f} GW" if total >= 10 else f"{bus}\n{total:.1f} GW",
-                fontsize=9, ha="right", va="center", fontweight="bold", zorder=5)
+                fontsize=6.5 if many else 9, ha="right", va="center", fontweight="bold", zorder=5)
 
     lat0 = xy.y.mean()
     ax.set_aspect(1 / np.cos(np.radians(lat0)))
@@ -553,15 +594,18 @@ def fig_network(n):
     ax.set_xlim(x0 - 1.0, x1 + 2.5)
     ax.set_ylim(y0 - 0.5, y1 + 1.8)
     ax.set_axis_off()
-    ax.set_title("Network — optimal 2035 capacity by zone, transmission and interties", loc="left",
-                 fontweight="bold")
+    title = "Network — optimal 2035 capacity by node and transmission" if many else (
+        "Network — optimal 2035 capacity by zone, transmission and interties")
+    ax.set_title(title, loc="left", fontweight="bold")
 
     carriers = sorted(cap.index.get_level_values("carrier").unique(), key=order)
     handles = [plt.Rectangle((0, 0), 1, 1, color=color(n, c)) for c in carriers]
     labels = [nice(n, c) for c in carriers]
-    handles += [plt.Line2D([], [], color="#444444", linewidth=3),
-                plt.Line2D([], [], color="#9f2ad5", linestyle="--", linewidth=1.5)]
-    labels += ["Transmission between zones", "Interties (import / export capacity)"]
+    handles.append(plt.Line2D([], [], color="#444444", linewidth=3))
+    labels.append("Transmission between nodes" if many else "Transmission between zones")
+    if not many:
+        handles.append(plt.Line2D([], [], color="#9f2ad5", linestyle="--", linewidth=1.5))
+        labels.append("Interties (import / export capacity)")
     ax.legend(handles, labels, loc="center left", bbox_to_anchor=(1.0, 0.5), frameon=False, fontsize=8,
               title="Pie size ∝ √(total GW)", title_fontsize=8)
     fig.tight_layout()
