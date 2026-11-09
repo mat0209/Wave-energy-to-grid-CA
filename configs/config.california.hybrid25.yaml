@@ -1,0 +1,15 @@
+# ====================================================================
+# 25-node overlay: coastal counties kept, inland counties grouped.
+# ====================================================================
+# Stack after config.california.county.yaml. Same run as the 58-county
+# model, so its county-level profiles are reused; outputs are named
+# elec_scounty_c25_*. Grouping and reasoning: county_groups_25.csv and
+# notebooks/spatial_resolution.ipynb. Renewables keep their county-level
+# resource (the plain `25` wildcard aggregates conventional carriers only).
+# ====================================================================
+
+scenario:
+  clusters: [25]
+
+model_topology:
+  county_groups: ../../configs/county_groups_25.csv

@@ -1,0 +1,62 @@
+# Proposed 25-node grouping of California's 58 counties (see notebooks/spatial_resolution.ipynb).
+# Coastal counties keep their own node (wave interconnection); inland counties are grouped along
+# corridors (Path 15, Path 26), each group inside one ReEDS zone. Not used by the model yet.
+bus,county,node,node_name,type
+p06015,Del Norte,C01,Del Norte,coast
+p06023,Humboldt,C02,Humboldt,coast
+p06045,Mendocino,C03,Mendocino,coast
+p06097,Sonoma,C04,Sonoma,coast
+p06041,Marin,C05,Marin,coast
+p06081,San Mateo,C06,San Mateo + SF,coast
+p06075,San Francisco,C06,San Mateo + SF,coast
+p06087,Santa Cruz,C07,Santa Cruz,coast
+p06053,Monterey,C08,Monterey,coast
+p06079,San Luis Obispo,C09,San Luis Obispo,coast
+p06083,Santa Barbara,C10,Santa Barbara,coast
+p06111,Ventura,C11,Ventura,coast
+p06037,Los Angeles,C12,Los Angeles,coast
+p06059,Orange,C13,Orange,coast
+p06073,San Diego,C14,San Diego,coast
+p06093,Siskiyou,I01,North-East (p8),inland
+p06049,Modoc,I01,North-East (p8),inland
+p06035,Lassen,I01,North-East (p8),inland
+p06089,Shasta,I02,Upper Sacramento Valley,inland
+p06105,Trinity,I02,Upper Sacramento Valley,inland
+p06103,Tehama,I02,Upper Sacramento Valley,inland
+p06021,Glenn,I02,Upper Sacramento Valley,inland
+p06007,Butte,I02,Upper Sacramento Valley,inland
+p06011,Colusa,I02,Upper Sacramento Valley,inland
+p06063,Plumas,I02,Upper Sacramento Valley,inland
+p06033,Lake,I02,Upper Sacramento Valley,inland
+p06067,Sacramento,I03,Sacramento + North Sierra,inland
+p06113,Yolo,I03,Sacramento + North Sierra,inland
+p06101,Sutter,I03,Sacramento + North Sierra,inland
+p06115,Yuba,I03,Sacramento + North Sierra,inland
+p06061,Placer,I03,Sacramento + North Sierra,inland
+p06057,Nevada,I03,Sacramento + North Sierra,inland
+p06091,Sierra,I03,Sacramento + North Sierra,inland
+p06017,El Dorado,I03,Sacramento + North Sierra,inland
+p06005,Amador,I03,Sacramento + North Sierra,inland
+p06003,Alpine,I03,Sacramento + North Sierra,inland
+p06001,Alameda,I04,Inland Bay Area,inland
+p06013,Contra Costa,I04,Inland Bay Area,inland
+p06085,Santa Clara,I04,Inland Bay Area,inland
+p06095,Solano,I04,Inland Bay Area,inland
+p06055,Napa,I04,Inland Bay Area,inland
+p06069,San Benito,I04,Inland Bay Area,inland
+p06077,San Joaquin,I05,North San Joaquin,inland
+p06099,Stanislaus,I05,North San Joaquin,inland
+p06047,Merced,I05,North San Joaquin,inland
+p06009,Calaveras,I05,North San Joaquin,inland
+p06109,Tuolumne,I05,North San Joaquin,inland
+p06043,Mariposa,I05,North San Joaquin,inland
+p06019,Fresno,I06,South San Joaquin,inland
+p06039,Madera,I06,South San Joaquin,inland
+p06031,Kings,I06,South San Joaquin,inland
+p06029,Kern,I07,Kern + Tulare,inland
+p06107,Tulare,I07,Kern + Tulare,inland
+p06027,Inyo,I08,Eastern Sierra,inland
+p06051,Mono,I08,Eastern Sierra,inland
+p06071,San Bernardino,I09,San Bernardino,inland
+p06065,Riverside,I10,Riverside,inland
+p06025,Imperial,I11,Imperial,inland

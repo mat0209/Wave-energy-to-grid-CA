@@ -1,0 +1,4 @@
+export_price: 40
+import_price: 60
+erm_margin: 0.15
+network: hybrid25
