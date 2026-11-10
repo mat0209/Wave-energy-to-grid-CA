@@ -19,6 +19,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import pypsa
+import xarray as xr
 import yaml
 
 warnings.filterwarnings("ignore", category=FutureWarning)
@@ -88,6 +89,47 @@ def load(path) -> pypsa.Network:
 # ---------------------------------------------------------------------------
 
 
+# Renewable policy. Eligible carriers count toward the "annual"/"hourly" targets and stay on in "strict" mode,
+# in California and as out-of-state contracted resources on the import buses. Add "wave" here once it exists
+# under another carrier name.
+RENEWABLE_CARRIERS = ["solar", "onwind", "offwind_floating", "geothermal", "biomass", "hydro", "wave"]
+FOSSIL_CARRIERS = ["CCGT", "CCGT-95CCS", "OCGT", "coal", "oil", "waste", "unspecified_imports"]
+RENEWABLE_DEFAULTS = {"renewables": None, "renewable_share": 1.0, "nuclear_counts": False}
+
+
+def normalize_params(params: dict) -> dict:
+    """Fill the renewable-policy defaults and drop the keys that have no effect.
+
+    With renewables=None the result has the same keys as before the option existed, so cached
+    results and the Snakemake reproduction check stay valid.
+    """
+    p = normalize_nuclear(params)
+    p = {**p, **{k: v for k, v in RENEWABLE_DEFAULTS.items() if k not in p}}
+    mode = p["renewables"]
+    if mode is None:
+        return {k: v for k, v in p.items() if k not in RENEWABLE_DEFAULTS}
+    if mode not in ("annual", "hourly", "strict"):
+        raise ValueError(f"renewables must be None, 'annual', 'hourly' or 'strict', got {mode!r}")
+    if mode == "strict":
+        p.pop("renewable_share")
+    return p
+
+
+def normalize_nuclear(params: dict) -> dict:
+    """new_nuclear defaults to False and is only written to parameters.yaml when True.
+
+    The base case builds no new nuclear, so blocking it there changes nothing and its cache stays valid.
+    """
+    p = dict(params)
+    if not p.get("new_nuclear", False):
+        p.pop("new_nuclear", None)
+    return p
+
+
+def eligible_carriers(params: dict) -> list:
+    return RENEWABLE_CARRIERS + (["nuclear"] if params.get("nuclear_counts") else [])
+
+
 def apply_params(n: pypsa.Network, params: dict) -> None:
     """Write scenario parameters into a freshly loaded base network."""
     exports = n.links.index[n.links.carrier == "exports"]
@@ -95,6 +137,84 @@ def apply_params(n: pypsa.Network, params: dict) -> None:
 
     imports = n.generators.index[n.generators.carrier == "unspecified_imports"]
     n.generators.loc[imports, "marginal_cost"] = float(params["import_price"])
+
+    if not params.get("new_nuclear", False):
+        # California bans new nuclear plants (1976 moratorium): keep only existing units (Diablo Canyon, the
+        # Palo Verde contract). New-build candidates are the extendable nuclear generators starting at p_nom = 0.
+        new = n.generators.index[(n.generators.carrier == "nuclear") & n.generators.p_nom_extendable
+                                 & (n.generators.p_nom == 0)]
+        n.generators.loc[new, "p_nom_max"] = 0.0
+
+    if params.get("renewables") == "strict":
+        # Switch off every non-eligible generator (fossil, unspecified imports, and nuclear unless it counts).
+        # Making them extendable with p_nom_max = 0 retires them (p_nom_opt = 0), so they also give no
+        # capacity to the reserve margin, and the capacity table still shows them as retired.
+        off_carriers = FOSSIL_CARRIERS + ([] if params.get("nuclear_counts") else ["nuclear"])
+        off = n.generators.index[n.generators.carrier.isin(off_carriers)]
+        n.generators.loc[off, "p_nom_extendable"] = True
+        n.generators.loc[off, ["p_nom_min", "p_nom_max"]] = 0.0
+
+
+def add_annual_renewable_constraint(n: pypsa.Network, params: dict) -> None:
+    """Eligible generation minus exports >= share x California load, over the year (energy-weighted).
+
+    Exports are subtracted so that renewable power sold out of state does not count toward California's
+    target. With share = 1.0, fossil + unspecified imports can then cover at most the storage and
+    transmission losses over the year, but single hours can still run on gas if other hours compensate.
+    """
+    m = n.model
+    w = n.snapshot_weightings.generators
+    w_da = xr.DataArray(w.values, coords={"snapshot": m["Generator-p"].indexes["snapshot"]}, dims="snapshot")
+
+    gens = n.generators.index[n.generators.carrier.isin(eligible_carriers(params))]
+    exports = n.links.index[(n.links.carrier == "exports") & n.links.bus0.isin(ca_buses(n))]
+    loads = n.loads.index[ca_mask(n, "loads")]
+    load_mwh = float(n.get_switchable_as_dense("Load", "p_set")[loads].sum(axis=1).mul(w).sum())
+
+    lhs = (m["Generator-p"].sel(name=gens) * w_da).sum()
+    if len(exports):
+        lhs = lhs - (m["Link-p"].sel(name=exports) * w_da).sum()
+    share = float(params["renewable_share"])
+    m.add_constraints(lhs >= share * load_mwh, name="GlobalConstraint-CA_renewable_share")
+    logging.getLogger(__name__).info(f"CA renewable target: {share:.0%} of {load_mwh / 1e6:.1f} TWh")
+
+
+def add_hourly_renewable_constraint(n: pypsa.Network, params: dict) -> None:
+    """Hourly matching ("24/7 carbon-free energy"): sum_t min(clean_t, load_t) >= share x annual CA load.
+
+    clean_t = eligible generation + storage discharge - storage charging - exports, in hour t. A surplus in
+    one hour does not make up for a deficit in another. Charging counts against the hour it happens in, so
+    gas power stored in a battery is not counted as clean when the battery discharges. The min() is a
+    variable matched_t <= clean_t and <= load_t; it can go negative, e.g. when batteries charge from gas.
+    """
+    m = n.model
+    sns = m["Generator-p"].indexes["snapshot"]
+    w = n.snapshot_weightings.generators.loc[sns]
+    w_da = xr.DataArray(w.values, coords={"snapshot": sns}, dims="snapshot")
+
+    gens = n.generators.index[n.generators.carrier.isin(eligible_carriers(params))]
+    stores = n.storage_units.index[ca_mask(n, "storage_units")]
+    exports = n.links.index[(n.links.carrier == "exports") & n.links.bus0.isin(ca_buses(n))]
+    loads = n.loads.index[ca_mask(n, "loads")]
+    load_t = n.get_switchable_as_dense("Load", "p_set").loc[sns, loads].sum(axis=1)
+
+    clean = m["Generator-p"].sel(name=gens).sum("name")
+    if len(stores):
+        clean = clean + m["StorageUnit-p_dispatch"].sel(name=stores).sum("name")
+        clean = clean - m["StorageUnit-p_store"].sel(name=stores).sum("name")
+    if len(exports):
+        clean = clean - m["Link-p"].sel(name=exports).sum("name")
+
+    upper = xr.DataArray(load_t.values, coords={"snapshot": sns}, dims="snapshot")
+    matched = m.add_variables(lower=-np.inf, upper=upper, name="CA_hourly_matched")
+    m.add_constraints(matched - clean <= 0, name="CA_hourly_matched_le_clean")
+    share = float(params["renewable_share"])
+    load_mwh = float((load_t * w).sum())
+    m.add_constraints((matched * w_da).sum() >= share * load_mwh, name="GlobalConstraint-CA_hourly_renewable_share")
+    logging.getLogger(__name__).info(f"CA hourly-matched target: {share:.0%} of {load_mwh / 1e6:.1f} TWh")
+
+
+RENEWABLE_CONSTRAINTS = {"annual": add_annual_renewable_constraint, "hourly": add_hourly_renewable_constraint}
 
 
 def solve(n: pypsa.Network, params: dict, log_path: Path, network: str = "zones4") -> pypsa.Network:
@@ -109,13 +229,28 @@ def solve(n: pypsa.Network, params: dict, log_path: Path, network: str = "zones4
         config=config,
     )
     np.random.seed(solving["options"].get("seed", 123))
-    with contextlib.chdir(WORKFLOW), quiet():  # config paths are relative to workflow/
-        n = sn.prepare_network(n, solving["options"])
-        sn.solve_network(
-            n, config=config, solving=solving, opts=OPTS, log_fn=str(log_path), log_to_console=False, progress=False
-        )
-        if "ERM" in OPTS:
-            sn.store_ERM_duals(n)
+
+    # solve_network() passes the module-level extra_functionality to PyPSA; wrap it to add our constraint.
+    original_extra = sn.extra_functionality
+    add_target = RENEWABLE_CONSTRAINTS.get(params.get("renewables"))
+    if add_target:
+        def extra(n, snapshots):
+            original_extra(n, snapshots)
+            add_target(n, params)
+        sn.extra_functionality = extra
+    try:
+        with contextlib.chdir(WORKFLOW), quiet():  # config paths are relative to workflow/
+            n = sn.prepare_network(n, solving["options"])
+            sn.solve_network(
+                n, config=config, solving=solving, opts=OPTS, log_fn=str(log_path), log_to_console=False, progress=False
+            )
+            if "ERM" in OPTS:
+                sn.store_ERM_duals(n)
+    finally:
+        sn.extra_functionality = original_extra
+    status = getattr(n.model, "status", "ok")  # quiet() hides solve_network's warning for a non-optimal solve
+    if status != "ok":
+        raise RuntimeError(f"Solve finished with status '{status}'; see {log_path}")
     return n
 
 
@@ -130,6 +265,7 @@ def run_scenario(name: str, params: dict, force: bool = False, network: str = "z
     out = OUTPUTS / name
     out.mkdir(parents=True, exist_ok=True)
     path, params_path = out / "network.nc", out / "parameters.yaml"
+    params = normalize_params(params)
     if network != "zones4":
         params = {**params, "network": network}
 
@@ -159,7 +295,7 @@ def check_against_snakemake(n: pypsa.Network, params: dict, network: str = "zone
     if network != "zones4":
         print(f"No Snakemake reference for network '{network}': skipping the reproduction check.")
         return
-    if params != BASE_PARAMS:
+    if normalize_params(params) != BASE_PARAMS:
         print(f"Parameters differ from the Snakemake base ({BASE_PARAMS}): skipping the reproduction check.")
         return
     ref = yaml.safe_load((BASE / "snakemake_reference.yaml").read_text())
@@ -352,6 +488,39 @@ def interchange_table(n):
     }).round(2)
 
 
+def hourly_matched_share(n, carriers):
+    """Share of CA load matched hour by hour by clean supply (same accounting as the "hourly" constraint)."""
+    w = weights(n)
+    g = n.generators.index[n.generators.carrier.isin(carriers)]
+    su = n.storage_units.index[ca_mask(n, "storage_units")]
+    ex = n.links.index[(n.links.carrier == "exports") & n.links.bus0.isin(ca_buses(n))]
+    clean = n.generators_t.p[g].sum(axis=1) + n.storage_units_t.p[su].sum(axis=1) - n.links_t.p0[ex].sum(axis=1)
+    load = n.loads_t.p[n.loads.index[ca_mask(n, "loads")]].sum(axis=1)
+    return 100 * float((np.minimum(clean, load) * w).sum() / (load * w).sum())
+
+
+def renewable_summary(n):
+    """California's yearly energy mix against its load: eligible renewables (in state + contracted out of state)."""
+    w = weights(n)
+    gen = n.generators_t.p.mul(w, axis=0).sum().groupby(n.generators.carrier).sum() / 1e6
+    ren = gen.reindex(RENEWABLE_CARRIERS).fillna(0).sum()
+    nuc = gen.get("nuclear", 0.0)
+    fossil = gen.reindex(FOSSIL_CARRIERS).fillna(0).sum()
+    ic = interchange_table(n)
+    load = ic["CA_load_TWh"]
+    return pd.Series({
+        "renewable TWh": ren,
+        "nuclear TWh": nuc,
+        "fossil + unspecified imports TWh": fossil,
+        "exports TWh": ic["exports_TWh"],
+        "CA load TWh": load,
+        "renewable share of load % (net of exports)": 100 * (ren - ic["exports_TWh"]) / load,
+        "renewable + nuclear share % (net of exports)": 100 * (ren + nuc - ic["exports_TWh"]) / load,
+        "renewable share % matched hourly": hourly_matched_share(n, RENEWABLE_CARRIERS),
+        "renewable + nuclear share % matched hourly": hourly_matched_share(n, RENEWABLE_CARRIERS + ["nuclear"]),
+    }).round(2)
+
+
 def erm_summary(n):
     if "erm_price" not in n.buses_t or n.buses_t.erm_price.empty:
         return pd.Series({"ERM active": False})
@@ -374,6 +543,7 @@ TABLES = {
     "curtailment": curtailment_table,
     "interchange": interchange_table,
     "erm": erm_summary,
+    "renewables": renewable_summary,
 }
 
 
@@ -660,6 +830,8 @@ def key_metrics(n):
         "new battery GW": cap.loc[cap.index.str.contains("Battery", case=False), "built_GW"].sum(),
         "gas (CCGT+OCGT+CCS) GW": cap.loc[cap.index.str.contains("Gas|Ccs", case=False), "optimal_GW"].sum(),
         "exports TWh": ic["exports_TWh"],
+        "renewable share %": (rs := renewable_summary(n))["renewable share of load % (net of exports)"],
+        "renewable share % hourly": rs["renewable share % matched hourly"],
     }).round(2)
 
 

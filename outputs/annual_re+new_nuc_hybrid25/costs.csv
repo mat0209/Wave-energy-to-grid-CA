@@ -1,0 +1,17 @@
+carrier,capex_G$,opex_G$,total_G$
+Nuclear,9.092,2.045,11.137
+Solar,3.131,0.001,3.133
+Ac,2.86,0.006,2.865
+Reservoir & Dam,2.448,0.0,2.449
+Geothermal,1.272,0.042,1.314
+Combined-Cycle Gas,0.406,0.612,1.018
+Battery Storage,0.706,0.001,0.707
+4Hr_Battery_Storage,0.418,0.0,0.418
+Onshore Wind,0.433,-0.051,0.381
+Unspecified Imports,0.0,0.168,0.168
+Biomass,0.065,0.032,0.097
+Coal,0.025,0.003,0.028
+Open-Cycle Gas,0.012,0.008,0.02
+Dc,0.008,0.0,0.008
+Exports,0.0,-0.852,-0.852
+TOTAL,20.876,2.016,22.892

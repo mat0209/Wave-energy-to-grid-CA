@@ -127,6 +127,24 @@ pypsa-usa/.venv/bin/python scripts/update_base.py   # copy the new network into 
 - **Parameters** at the top of the notebook: `export_price`, `import_price`, `erm_margin`. They are applied to the
   prepared network at solve time, so changing them needs no Snakemake rebuild. Changing the export price in the
   notebook matches a full Snakemake rebuild: relative objective difference 2×10⁻⁷, identical capacities.
+- **Renewable policy** (`renewables`, off by default). Eligible carriers: solar, onshore wind, floating offshore wind,
+  geothermal, biomass, hydro (wave once added), both in California and as out-of-state contracted resources on the
+  import buses. Nuclear counts only with `nuclear_counts: True` (SB 100 counts it as clean).
+  - `"annual"`: over the year, eligible generation minus exports ≥ `renewable_share` × California load. Exports are
+    subtracted so renewable power sold out of state does not count. With 1.0, fossil and unspecified imports can
+    only cover storage and transmission losses over the year, but gas can still run in some hours.
+  - `"hourly"` (hour-by-hour matching, as in "24/7 carbon-free energy"): in each hour, clean supply = eligible
+    generation + storage discharge − storage charging − exports, capped at that hour's load. The sum over the year
+    must reach `renewable_share` × California load. A surplus in one hour does not count for another, and charging
+    counts against the hour it happens in, so gas stored in a battery is not counted as clean.
+  - `"strict"`: every hour. Fossil plants (CCGT, OCGT, CCS, coal, oil) and unspecified imports are retired
+    (`p_nom_max = 0`), so they give no reserve-margin capacity either. Nuclear too, unless `nuclear_counts`.
+  - The `renewables` table and the `renewable share %` metric report the share for every scenario. The base case
+    is at 53% (net of exports).
+- **New nuclear** (`new_nuclear`, `False` by default): California bans new nuclear plants (1976 moratorium), so only
+  existing units remain (Diablo Canyon, the Palo Verde contract). PyPSA-USA offers a new-nuclear candidate at every
+  node with no capacity limit; with `nuclear_counts: True` and new nuclear allowed, the 100% annual case builds
+  19 GW of it.
 - **Solve:** reuses PyPSA-USA's `solve_network.py`, so the constraints are the same as in Snakemake. With the base
   parameters and the 4-zone network, the notebook checks that it reproduces the Snakemake result exactly
   (`base/snakemake_reference.yaml`). There is no such reference for the 25-node network.
