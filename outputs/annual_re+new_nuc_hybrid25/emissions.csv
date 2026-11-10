@@ -1,0 +1,8 @@
+,carrier,MtCO2
+in-state,Coal,0.08
+in-state,Combined-Cycle Gas,4.93
+in-state,Geothermal,1.87
+out-of-state / imports,Combined-Cycle Gas,2.48
+out-of-state / imports,Geothermal,0.06
+out-of-state / imports,Open-Cycle Gas,0.15
+out-of-state / imports,Unspecified Imports,1.19

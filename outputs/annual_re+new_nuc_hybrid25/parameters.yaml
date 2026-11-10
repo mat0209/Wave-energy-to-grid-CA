@@ -1,0 +1,8 @@
+export_price: 40
+import_price: 60
+erm_margin: 0.15
+renewables: annual
+renewable_share: 1.0
+nuclear_counts: true
+new_nuclear: true
+network: hybrid25
