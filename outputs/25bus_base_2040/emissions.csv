@@ -1,0 +1,8 @@
+,carrier,MtCO2
+in-state,Ccgt-95Ccs,1.8
+in-state,Combined-Cycle Gas,24.15
+in-state,Geothermal,1.82
+in-state,Open-Cycle Gas,0.16
+out-of-state / imports,Combined-Cycle Gas,5.18
+out-of-state / imports,Geothermal,0.06
+out-of-state / imports,Unspecified Imports,5.85

@@ -1,4 +1,4 @@
-"""Helpers for the California 2035 scenario notebook.
+"""Helpers for the California scenario notebook (2035 or 2040).
 
 Loads the prepared PyPSA-USA network, applies scenario parameters, solves it
 with PyPSA-USA's own `solve_network.py` (same constraints as Snakemake), and
@@ -31,13 +31,18 @@ REPO = Path(os.environ.get("PYPSA_USA_DIR", ROOT / "pypsa-usa"))  # PyPSA-USA su
 WORKFLOW = REPO / "workflow"
 OUTPUTS = ROOT / "outputs"
 
-# base/ holds the Snakemake-built 2035 network (refresh with scripts/update_base.py)
+# base/ holds the Snakemake-built networks (refresh with scripts/update_base.py)
 BASE = ROOT / "base"
-# Prepared networks a scenario can start from: name -> (network, merged Snakemake config)
-NETWORKS = {
-    "zones4": (BASE / "network_2035.nc", BASE / "config_2035.yaml"),  # 4 ReEDS zones
-    "hybrid25": (BASE / "network_2035_hybrid25.nc", BASE / "config_2035_hybrid25.yaml"),  # 25 nodes (base)
-}
+YEARS = [2035, 2040]  # model years with a prepared network in base/
+DEFAULT_YEAR = 2035   # runs saved before the year option existed are 2035
+
+
+def network_files(network: str, year: int = DEFAULT_YEAR) -> tuple[Path, Path]:
+    """Prepared network and merged Snakemake config: "zones4" (4 ReEDS zones) or "hybrid25" (25 nodes, the base)."""
+    suffix = "" if network == "zones4" else f"_{network}"
+    return BASE / f"network_{year}{suffix}.nc", BASE / f"config_{year}{suffix}.yaml"
+
+
 SOLVE_TIME = {"zones4": "2-4 min", "hybrid25": "~15 min, close other heavy apps"}
 BUSES = {"zones4": 4, "hybrid25": 25}  # California buses, for scenario names
 GEO = BASE / "geo"
@@ -45,7 +50,7 @@ GEO = BASE / "geo"
 sys.path.insert(0, str(WORKFLOW / "scripts"))
 import solve_network as sn  # noqa: E402
 
-with open(NETWORKS["zones4"][1]) as f:
+with open(network_files("zones4")[1]) as f:
     CONFIG = yaml.safe_load(f)
 
 OPTS = [o for o in CONFIG["wildcards"]["opts"].split("-") if o]
@@ -219,9 +224,9 @@ def add_hourly_renewable_constraint(n: pypsa.Network, params: dict) -> None:
 RENEWABLE_CONSTRAINTS = {"annual": add_annual_renewable_constraint, "hourly": add_hourly_renewable_constraint}
 
 
-def solve(n: pypsa.Network, params: dict, log_path: Path, network: str = "zones4") -> pypsa.Network:
+def solve(n: pypsa.Network, params: dict, log_path: Path, network: str = "zones4", year: int = DEFAULT_YEAR) -> pypsa.Network:
     """Solve exactly like the Snakemake solve_network rule, with scenario overrides in the config."""
-    config = yaml.safe_load(NETWORKS[network][1].read_text())
+    config = yaml.safe_load(network_files(network, year)[1].read_text())
     config["electricity"]["erm"] = {"all": float(params["erm_margin"])}
     solving = config["solving"]
     # solve_network.py reads a global `snakemake` object; give it the fields it uses.
@@ -266,7 +271,7 @@ def _number(x) -> str:
     return f"{x:g}" if isinstance(x, (int, float)) else re.sub(r"[^a-z0-9]+", "-", str(x).lower()).strip("-")
 
 
-def scenario_name(params: dict, network: str, tag: str | None = None) -> str:
+def scenario_name(params: dict, network: str, tag: str | None = None, year: int = DEFAULT_YEAR) -> str:
     """Output folder name: {buses}bus_{policy}_{year}, then one tag per setting that differs from the default.
 
     policy: "base" (no renewable target) or e.g. "re100-annual", "re95-hourly", "re100-strict".
@@ -274,8 +279,6 @@ def scenario_name(params: dict, network: str, tag: str | None = None) -> str:
     import price in $/MWh), "erm10" (reserve margin in %), then the free `tag` (e.g. "wave").
     """
     p = normalize_params(params)
-    config = yaml.safe_load(NETWORKS[network][1].read_text())
-    year = config["scenario"]["planning_horizons"][0]
     mode = p.get("renewables")
     if mode is None:
         policy = "base"
@@ -298,7 +301,7 @@ def scenario_name(params: dict, network: str, tag: str | None = None) -> str:
     return "_".join(parts)
 
 
-def run_scenario(name: str, params: dict, force: bool = False, network: str = "zones4") -> pypsa.Network:
+def run_scenario(name: str, params: dict, force: bool = False, network: str = "zones4", year: int = DEFAULT_YEAR) -> pypsa.Network:
     """Solve a scenario (or load it from outputs/<name>/ if it was solved with the same parameters)."""
     out = OUTPUTS / name
     out.mkdir(parents=True, exist_ok=True)
@@ -306,6 +309,8 @@ def run_scenario(name: str, params: dict, force: bool = False, network: str = "z
     params = normalize_params(params)
     if network != "zones4":
         params = {**params, "network": network}
+    if year != DEFAULT_YEAR:  # 2035 runs keep their saved parameters (and cache)
+        params = {**params, "year": year}
 
     if path.exists() and not force and params_path.exists():
         saved = yaml.safe_load(params_path.read_text())
@@ -316,10 +321,10 @@ def run_scenario(name: str, params: dict, force: bool = False, network: str = "z
 
     print(f"[{name}] solving ({SOLVE_TIME[network]})...")
     start = time.time()
-    n = load(NETWORKS[network][0])
+    n = load(network_files(network, year)[0])
     apply_params(n, params)
-    n = solve(n, params, out / "solver.log", network)
-    stats = {"network": network, "solve_minutes": round((time.time() - start) / 60, 1), "peak_ram_GB": round(peak_ram_gb(), 1)}
+    n = solve(n, params, out / "solver.log", network, year)
+    stats = {"network": network, "year": year, "solve_minutes": round((time.time() - start) / 60, 1), "peak_ram_GB": round(peak_ram_gb(), 1)}
     with quiet():
         n.export_to_netcdf(path)
     params_path.write_text(yaml.safe_dump(params, sort_keys=False))
@@ -328,10 +333,10 @@ def run_scenario(name: str, params: dict, force: bool = False, network: str = "z
     return n
 
 
-def check_against_snakemake(n: pypsa.Network, params: dict, network: str = "zones4") -> None:
-    """With the base parameters, the notebook must reproduce the Snakemake solve."""
-    if network != "zones4":
-        print(f"No Snakemake reference for network '{network}': skipping the reproduction check.")
+def check_against_snakemake(n: pypsa.Network, params: dict, network: str = "zones4", year: int = DEFAULT_YEAR) -> None:
+    """With the base parameters, the notebook must reproduce the Snakemake solve (4-zone 2035 network only)."""
+    if network != "zones4" or year != DEFAULT_YEAR:
+        print(f"No Snakemake reference for network '{network}' in {year}: skipping the reproduction check.")
         return
     if normalize_params(params) != BASE_PARAMS:
         print(f"Parameters differ from the Snakemake base ({BASE_PARAMS}): skipping the reproduction check.")
@@ -603,7 +608,7 @@ def fig_capacity(n):
     fig, ax = plt.subplots(figsize=(7, 0.32 * len(t) + 1.2))
     y = np.arange(len(t))
     ax.barh(y + 0.2, t.existing_GW, height=0.38, color="#b9b9b9", label="Existing")
-    ax.barh(y - 0.2, t.optimal_GW, height=0.38, color="#2a6fdb", label="Optimal 2035")
+    ax.barh(y - 0.2, t.optimal_GW, height=0.38, color="#2a6fdb", label=f"Optimal {int(n.investment_periods[0])}")
     ax.set_yticks(y, t.index)
     ax.set_xlabel("GW")
     ax.set_title("Installed capacity", loc="left", fontweight="bold")
@@ -713,7 +718,7 @@ def node_shapes(buses):
 
 
 def fig_network(n):
-    """Map: 2035 optimal capacity per California node (pies), inter-node transmission, interties.
+    """Map: optimal capacity per California node (pies), inter-node transmission, interties.
 
     Interties are only drawn for ReEDS-zone networks: with county nodes the neighbours are counties.
     """
@@ -802,8 +807,9 @@ def fig_network(n):
     ax.set_xlim(x0 - 1.0, x1 + 2.5)
     ax.set_ylim(y0 - 0.5, y1 + 1.8)
     ax.set_axis_off()
-    title = "Network — optimal 2035 capacity by node and transmission" if many else (
-        "Network — optimal 2035 capacity by zone, transmission and interties")
+    yr = int(n.investment_periods[0])
+    title = f"Network — optimal {yr} capacity by node and transmission" if many else (
+        f"Network — optimal {yr} capacity by zone, transmission and interties")
     ax.set_title(title, loc="left", fontweight="bold")
 
     carriers = sorted(cap.index.get_level_values("carrier").unique(), key=order)
@@ -879,13 +885,13 @@ def compare_scenarios():
     for d in sorted(p for p in OUTPUTS.iterdir() if (p / "metrics.csv").exists()):
         params_path = d / "parameters.yaml"
         params = yaml.safe_load(params_path.read_text()) if params_path.exists() else {}
-        params = {"network": params.pop("network", "zones4"), **params}  # zones4 runs do not record it
+        params = {"network": params.pop("network", "zones4"), "year": params.pop("year", DEFAULT_YEAR), **params}
         metrics = pd.read_csv(d / "metrics.csv", index_col=0).iloc[:, 0]
         metric_cols += [c for c in metrics.index if c not in metric_cols]
         rows[d.name] = pd.concat([pd.Series(params, dtype=object), metrics])
     table = pd.DataFrame(rows).T
     # Parameters first (in PARAMS order), then metrics in key_metrics order.
-    param_cols = ["network", *BASE_PARAMS, *RENEWABLE_DEFAULTS, "new_nuclear"]
+    param_cols = ["network", "year", *BASE_PARAMS, *RENEWABLE_DEFAULTS, "new_nuclear"]
     first = [c for c in param_cols if c in table.columns]
     table = table[first + [c for c in metric_cols if c not in first]]
     table.to_csv(OUTPUTS / "comparison.csv")

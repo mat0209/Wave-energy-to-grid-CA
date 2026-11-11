@@ -1,0 +1,7 @@
+# 2040 instead of 2035. Add after config.california.light.yaml (and after config.california.county.yaml
+# for the county / 25-node runs, together with config.california.2040.county.yaml).
+# SERVM demand, the AB 32 CO2 cap and ATB costs all have 2040 values.
+run:
+  name: "california-2040"
+scenario:
+  planning_horizons: [2040]

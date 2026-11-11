@@ -1,7 +1,10 @@
-,network,export_price,import_price,erm_margin,renewables,renewable_share,nuclear_counts,new_nuclear,system cost G$,CO2 in-state Mt,CO2 incl. imports Mt,CO2 price $/t,avg CA price $/MWh,solar GW,new battery GW,gas (CCGT+OCGT+CCS) GW,exports TWh,renewable share %
-25bus_base_2035,hybrid25,40,60,0.15,,,,,18.68,31.11,40.55,45.87,49.02,88.14,0.0,26.97,20.37,
-25bus_re100-annual_2035_nuc,hybrid25,40,60,0.15,annual,1.0,True,,23.51,13.72,18.49,0.0,14.18,172.29,54.44,13.31,18.77,93.6
-25bus_re100-annual_2035_nuc_newnuc,hybrid25,40,60,0.15,annual,1.0,True,True,22.89,6.88,10.76,0.0,13.19,82.4,4.24,7.21,21.29,50.56
-4bus_base_2035,zones4,40,60,0.15,,,,,16.72,31.11,40.94,50.43,49.04,88.14,0.0,27.72,19.72,
-4bus_base_2035_exp-eia-wholesale,zones4,EIA wholesale (~168 avg),60,0.15,,,,,6.7,31.12,41.8,57.23,53.55,84.62,0.0,34.82,88.55,
-4bus_base_2035_exp50,zones4,50,60,0.15,,,,,16.5,31.11,40.6,46.3,48.84,90.14,0.0,27.55,25.1,
+,network,year,export_price,import_price,erm_margin,renewables,renewable_share,nuclear_counts,new_nuclear,system cost G$,CO2 in-state Mt,CO2 incl. imports Mt,CO2 price $/t,avg CA price $/MWh,solar GW,new battery GW,gas (CCGT+OCGT+CCS) GW,exports TWh,renewable share %,renewable share % hourly
+25bus_base_2035,hybrid25,2035,40,60,0.15,,,,,18.68,31.11,40.55,45.87,49.02,88.14,0.0,26.97,20.37,,
+25bus_base_2040,hybrid25,2040,40,60,0.15,,,,,20.95,27.93,39.02,54.91,49.52,97.16,0.0,33.83,23.93,48.79,47.02
+25bus_re100-annual_2035_nuc,hybrid25,2035,40,60,0.15,annual,1.0,True,,23.51,13.72,18.49,0.0,14.18,172.29,54.44,13.31,18.77,93.6,
+25bus_re100-annual_2035_nuc_newnuc,hybrid25,2035,40,60,0.15,annual,1.0,True,True,22.89,6.88,10.76,0.0,13.19,82.4,4.24,7.21,21.29,50.56,
+25bus_re95-hourly_2040_nuc,hybrid25,2040,40,60,0.15,hourly,0.95,True,,29.78,6.8,10.32,0.0,1.94,191.15,76.87,12.12,38.42,97.56,90.96
+4bus_base_2035,zones4,2035,40,60,0.15,,,,,16.72,31.11,40.94,50.43,49.04,88.14,0.0,27.72,19.72,,
+4bus_base_2035_exp-eia-wholesale,zones4,2035,EIA wholesale (~168 avg),60,0.15,,,,,6.7,31.12,41.8,57.23,53.55,84.62,0.0,34.82,88.55,,
+4bus_base_2035_exp50,zones4,2035,50,60,0.15,,,,,16.5,31.11,40.6,46.3,48.84,90.14,0.0,27.55,25.1,,
+4bus_base_2040,zones4,2040,40,60,0.15,,,,,18.97,27.91,38.27,61.18,49.76,95.88,0.0,34.16,23.59,49.15,47.41

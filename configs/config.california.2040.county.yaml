@@ -1,0 +1,3 @@
+# Run name of the 2040 county / 25-node build. Add last, after config.california.2040.yaml.
+run:
+  name: "california-2040-county"

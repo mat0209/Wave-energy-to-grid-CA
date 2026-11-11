@@ -1,0 +1,15 @@
+,existing_GW,optimal_GW,built_GW,retired_GW
+Solar,34.73,95.88,61.14,0.0
+Battery Storage,23.54,23.54,0.0,0.0
+Unspecified Imports,19.03,19.03,0.0,0.0
+Combined-Cycle Gas,24.94,16.5,0.0,8.44
+Ccgt-95Ccs,0.0,13.58,13.58,0.0
+Reservoir & Dam,13.57,13.57,0.0,0.0
+Onshore Wind,6.55,8.44,1.89,0.0
+Open-Cycle Gas,13.74,4.08,0.0,9.66
+Pumped Hydro Storage,3.7,3.7,0.0,0.0
+Nuclear,2.96,2.96,0.0,0.0
+Geothermal,2.94,2.94,0.0,0.0
+Biomass,0.93,0.93,0.0,0.0
+Oil,0.52,0.52,0.0,0.0
+Coal,0.06,0.06,0.0,0.0

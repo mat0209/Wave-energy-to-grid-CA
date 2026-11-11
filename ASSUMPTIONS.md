@@ -7,7 +7,18 @@ overlays in `configs/` and split into 25 nodes.
 ## Changes vs. the reference model
 
 - **Renewable profiles:** atlite with ERA5 2019 weather instead of GODEEEP, whose data is only on Sherlock. The weather year stays 2019 (`configs/config.california.atlite.yaml`).
-- **Single horizon:** 2035 only, instead of 2030/2035/2040/2045, so it runs on a laptop. There is no 2036 in the CPUC SERVM demand (`configs/config.california.light.yaml`).
+- **Single horizon:** one model year at a time instead of 2030/2035/2040/2045, so it runs on a laptop. There is no 2036 in the CPUC SERVM demand (`configs/config.california.light.yaml`).
+- **Model years 2035 and 2040:** both networks are in `base/`; the notebook picks one with `YEAR`. 2040 matches the
+  year of the wave cost table and SB 100's 95 % clean target. It is built with the overlays
+  `configs/config.california.2040.yaml` (and `config.california.2040.county.yaml` for 25 nodes), see *Building the
+  network*. Compared with 2035: California load 397 vs 356 TWh (+12 %), peak 73 vs 68 GW; new-build costs lower
+  (solar −6 %, onshore wind −4 %, floating offshore wind −18 %, 4 h batteries −7 %); AB 32 cap 27.9 vs 31.1 Mt
+  (2022 CARB scoping plan). Same existing fleet.
+- **Diablo Canyon kept in 2040:** PyPSA-USA gives it a 60-year lifetime (online 1985), so its 2.3 GW still run in
+  2040. Its current state authorization (SB 846) only extends operation to about 2030; we keep it anyway, as a
+  simplifying assumption (extension assumed).
+- **Multi-year runs** (several horizons in one network) are possible with `foresight: myopic`, one horizon solved
+  after the other, each about as heavy as a single-year solve. Not set up: the notebook tables assume one year.
 - **Reliability:** a 15% energy reserve margin (ERM) is on (`opts: REM-ERM-3h`). With 4 zones it binds in 3 of 2,920 time steps and keeps 2.2 GW of peaking gas (OCGT); with 25 nodes it binds in 4.
 - **Export price:** exports are paid a flat **40 $/MWh** instead of the EIA "wholesale" series (`configs/config.california.light.yaml`).
   - The EIA series is actually retail-priced (PyPSA-USA issue #807). It paid ~168 $/MWh against ~54 $/MWh in-state, so the model built generation just to export.
@@ -103,7 +114,7 @@ cd pypsa-usa/workflow
   ../../configs/config.california.atlite.yaml \
   ../../configs/config.california.light.yaml
 cd ../..
-pypsa-usa/.venv/bin/python scripts/update_base.py   # copy the new network into base/
+pypsa-usa/.venv/bin/python scripts/update_base.py   # copy the new network into base/ (add 2040 for that year)
 ```
 
 - With `--rerun-triggers mtime`, editing a config does not trigger a rebuild. Force one from the step the
@@ -122,7 +133,8 @@ pypsa-usa/.venv/bin/python scripts/update_base.py   # copy the new network into 
 ## Scenario notebook
 
 `notebooks/california_2035.ipynb` runs **one scenario**, named at the top. The code lives in
-`notebooks/ca_helpers.py`. It starts from `base/network_2035_hybrid25.nc`, so it needs neither Snakemake nor the data.
+`notebooks/ca_helpers.py`. It starts from `base/network_<YEAR>_hybrid25.nc` (or `network_<YEAR>.nc` for 4 zones), so it
+needs neither Snakemake nor the data.
 
 - **Parameters** at the top of the notebook: `export_price`, `import_price`, `erm_margin`. They are applied to the
   prepared network at solve time, so changing them needs no Snakemake rebuild. Changing the export price in the
