@@ -41,7 +41,7 @@ RUNS = {  # option -> (Snakemake run name, network name)
     "zones4": ("california-2035", "elec_s75_c4_ec_lv1.0_REM-ERM-3h_E"),
     "county58": ("california-2035-county", "elec_scounty_c58_ec_lv1.0_REM-ERM-3h_E"),
 }
-HYBRID_DIR = ROOT / "outputs" / "reference_hybrid25"  # the 25-node run, solved from the california_2035 notebook
+HYBRID_DIR = ROOT / "outputs" / "25bus_base_2035"  # the 25-node run, solved from the california_2035 notebook
 COUNTY_RUN, COUNTY_NET = RUNS["county58"]
 GEO = WORKFLOW / f"resources/{COUNTY_RUN}/geospatial/western"
 

@@ -8,6 +8,7 @@ builds result tables and figures.
 import contextlib
 import logging
 import os
+import re
 import resource
 import sys
 import time
@@ -38,6 +39,7 @@ NETWORKS = {
     "hybrid25": (BASE / "network_2035_hybrid25.nc", BASE / "config_2035_hybrid25.yaml"),  # 25 nodes (base)
 }
 SOLVE_TIME = {"zones4": "2-4 min", "hybrid25": "~15 min, close other heavy apps"}
+BUSES = {"zones4": 4, "hybrid25": 25}  # California buses, for scenario names
 GEO = BASE / "geo"
 
 sys.path.insert(0, str(WORKFLOW / "scripts"))
@@ -258,6 +260,42 @@ def peak_ram_gb() -> float:
     """Peak memory of this Python process since it started (restart the kernel for a clean reading)."""
     peak = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
     return peak / 1e9 if sys.platform == "darwin" else peak / 1e6  # bytes on macOS, kB on Linux
+
+
+def _number(x) -> str:
+    return f"{x:g}" if isinstance(x, (int, float)) else re.sub(r"[^a-z0-9]+", "-", str(x).lower()).strip("-")
+
+
+def scenario_name(params: dict, network: str, tag: str | None = None) -> str:
+    """Output folder name: {buses}bus_{policy}_{year}, then one tag per setting that differs from the default.
+
+    policy: "base" (no renewable target) or e.g. "re100-annual", "re95-hourly", "re100-strict".
+    Tags: "nuc" (nuclear counts as clean), "newnuc" (new nuclear allowed), "exp50" / "imp70" (export /
+    import price in $/MWh), "erm10" (reserve margin in %), then the free `tag` (e.g. "wave").
+    """
+    p = normalize_params(params)
+    config = yaml.safe_load(NETWORKS[network][1].read_text())
+    year = config["scenario"]["planning_horizons"][0]
+    mode = p.get("renewables")
+    if mode is None:
+        policy = "base"
+    else:
+        share = 1.0 if mode == "strict" else p["renewable_share"]
+        policy = f"re{share * 100:g}-{mode}"
+    parts = [f"{BUSES[network]}bus", policy, str(year)]
+    if p.get("nuclear_counts"):
+        parts.append("nuc")
+    if p.get("new_nuclear"):
+        parts.append("newnuc")
+    if p["export_price"] != BASE_PARAMS["export_price"]:
+        parts.append("exp" + _number(p["export_price"]))
+    if p["import_price"] != BASE_PARAMS["import_price"]:
+        parts.append("imp" + _number(p["import_price"]))
+    if p["erm_margin"] != BASE_PARAMS["erm_margin"]:
+        parts.append("erm" + _number(round(p["erm_margin"] * 100, 1)))
+    if tag:
+        parts.append(_number(tag))
+    return "_".join(parts)
 
 
 def run_scenario(name: str, params: dict, force: bool = False, network: str = "zones4") -> pypsa.Network:
@@ -837,12 +875,18 @@ def key_metrics(n):
 
 def compare_scenarios():
     """One row per scenario folder in outputs/ that has a metrics.csv (written by export), with its parameters."""
-    rows = {}
+    rows, metric_cols = {}, []
     for d in sorted(p for p in OUTPUTS.iterdir() if (p / "metrics.csv").exists()):
         params_path = d / "parameters.yaml"
         params = yaml.safe_load(params_path.read_text()) if params_path.exists() else {}
+        params = {"network": params.pop("network", "zones4"), **params}  # zones4 runs do not record it
         metrics = pd.read_csv(d / "metrics.csv", index_col=0).iloc[:, 0]
+        metric_cols += [c for c in metrics.index if c not in metric_cols]
         rows[d.name] = pd.concat([pd.Series(params, dtype=object), metrics])
     table = pd.DataFrame(rows).T
+    # Parameters first (in PARAMS order), then metrics in key_metrics order.
+    param_cols = ["network", *BASE_PARAMS, *RENEWABLE_DEFAULTS, "new_nuclear"]
+    first = [c for c in param_cols if c in table.columns]
+    table = table[first + [c for c in metric_cols if c not in first]]
     table.to_csv(OUTPUTS / "comparison.csv")
     return table

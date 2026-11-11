@@ -69,7 +69,7 @@ wave power, one central wave scenario should be re-run on the 58-county model as
 - **System cost across resolutions:** it includes the annualised cost of the existing AC grid, recomputed link by link,
   so it changes with the number of nodes (0.96 G$ with 4 zones, 3.4 G$ with 58 counties). Compare costs without it.
 
-Refresh `base/spatial/` after solving any of these runs. The 25-node run is read from `outputs/reference_hybrid25/`:
+Refresh `base/spatial/` after solving any of these runs. The 25-node run is read from `outputs/25bus_base_2035/`:
 
 ```bash
 pypsa-usa/.venv/bin/python scripts/export_spatial.py
@@ -150,10 +150,16 @@ pypsa-usa/.venv/bin/python scripts/update_base.py   # copy the new network into 
   (`base/snakemake_reference.yaml`). There is no such reference for the 25-node network.
 - **Run stats:** each solve writes its time and the kernel's peak RAM to `outputs/<SCENARIO>/run_stats.yaml`. Restart the
   kernel first for a clean reading. A 25-node solve takes ~15 min; with `NETWORK = "zones4"`, 2–4 min and 3–5 GB.
+- **Scenario names** are built from the parameters: `{buses}bus_{policy}_{year}`, then one tag per setting that differs
+  from the default. Policy is `base` (no renewable target) or e.g. `re100-annual`, `re95-hourly`, `re100-strict`. Tags:
+  `nuc` (nuclear counts as clean), `newnuc` (new nuclear allowed), `exp50` / `imp70` (export / import price, $/MWh),
+  `erm10` (reserve margin, %), then the free `TAG` set in the notebook (e.g. `wave`). Example:
+  `25bus_re95-hourly_2035_nuc_wave`.
 - **Outputs:** `outputs/<SCENARIO>/` holds `parameters.yaml`, `metrics.csv`, the CSV tables and the PNG figures
   (in git), and the solved `network.nc` (not in git, 40–80 MB). A result is reused only if its saved parameters match.
 - **Comparison:** the last cell builds `outputs/comparison.csv` from every scenario's `metrics.csv`.
 
-`outputs/reference_hybrid25/` is the base case. `outputs/reference/` has the same parameters on the 4-zone network, and
-`outputs/reference_exports50/` and `outputs/reference_wholesale_exports/` keep earlier 4-zone runs (exports at 50 $/MWh
-and at the EIA "wholesale" price).
+`outputs/25bus_base_2035/` is the base case. `outputs/4bus_base_2035/` has the same parameters on the 4-zone network, and
+`outputs/4bus_base_2035_exp50/` and `outputs/4bus_base_2035_exp-eia-wholesale/` keep earlier 4-zone runs (exports at
+50 $/MWh and at the EIA "wholesale" price). `outputs/25bus_re100-annual_2035_nuc/` is 100% clean over the year with
+existing nuclear only; `..._nuc_newnuc/` also allows new nuclear (19 GW built).
