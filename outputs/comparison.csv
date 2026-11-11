@@ -1,7 +1,7 @@
-,CO2 in-state Mt,CO2 incl. imports Mt,CO2 price $/t,avg CA price $/MWh,erm_margin,export_price,exports TWh,gas (CCGT+OCGT+CCS) GW,import_price,network,new battery GW,new_nuclear,nuclear_counts,renewable share %,renewable_share,renewables,solar GW,system cost G$
-annual_re+existing_nuc_hybrid25,13.72,18.49,0.0,14.18,0.15,40,18.77,13.31,60,hybrid25,54.44,,True,93.6,1.0,annual,172.29,23.51
-annual_re+new_nuc_hybrid25,6.88,10.76,0.0,13.19,0.15,40,21.29,7.21,60,hybrid25,4.24,True,True,50.56,1.0,annual,82.4,22.89
-reference,31.11,40.94,50.43,49.04,0.15,40,19.72,27.72,60,,0.0,,,,,,88.14,16.72
-reference_exports50,31.11,40.6,46.3,48.84,0.15,50,25.1,27.55,60,,0.0,,,,,,90.14,16.5
-reference_hybrid25,31.11,40.55,45.87,49.02,0.15,40,20.37,26.97,60,hybrid25,0.0,,,,,,88.14,18.68
-reference_wholesale_exports,31.12,41.8,57.23,53.55,0.15,EIA wholesale (~168 avg),88.55,34.82,60,,0.0,,,,,,84.62,6.7
+,network,export_price,import_price,erm_margin,renewables,renewable_share,nuclear_counts,new_nuclear,system cost G$,CO2 in-state Mt,CO2 incl. imports Mt,CO2 price $/t,avg CA price $/MWh,solar GW,new battery GW,gas (CCGT+OCGT+CCS) GW,exports TWh,renewable share %
+25bus_base_2035,hybrid25,40,60,0.15,,,,,18.68,31.11,40.55,45.87,49.02,88.14,0.0,26.97,20.37,
+25bus_re100-annual_2035_nuc,hybrid25,40,60,0.15,annual,1.0,True,,23.51,13.72,18.49,0.0,14.18,172.29,54.44,13.31,18.77,93.6
+25bus_re100-annual_2035_nuc_newnuc,hybrid25,40,60,0.15,annual,1.0,True,True,22.89,6.88,10.76,0.0,13.19,82.4,4.24,7.21,21.29,50.56
+4bus_base_2035,zones4,40,60,0.15,,,,,16.72,31.11,40.94,50.43,49.04,88.14,0.0,27.72,19.72,
+4bus_base_2035_exp-eia-wholesale,zones4,EIA wholesale (~168 avg),60,0.15,,,,,6.7,31.12,41.8,57.23,53.55,84.62,0.0,34.82,88.55,
+4bus_base_2035_exp50,zones4,50,60,0.15,,,,,16.5,31.11,40.6,46.3,48.84,90.14,0.0,27.55,25.1,
