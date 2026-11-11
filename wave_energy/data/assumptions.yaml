@@ -1,0 +1,29 @@
+# Wave energy inputs, as collected. Tables: costs.csv (CapEx/OpEx by year and tier), density.csv (MW/km² by lane width).
+
+device:
+  name: CorPower
+  rated_kw: 300            # per buoy
+  spacing_m: 150
+  cluster: {rows: 4, columns: 7, buoys: 28}
+
+density:
+  realistic_range_mw_per_km2: [5, 13]   # gaps needed for vessel transit safety lanes
+
+economics:
+  lifetime_years: 20
+  cost_tiers:              # costs.csv
+    aggressive: cheapest
+    moderate: middle
+    conservative: most expensive
+
+profiles:
+  file: raw/generation_profiles.csv
+  weather_year: 2019
+  time_step_hours: 3
+  sites_file: raw/coordinates_wecc.csv
+
+sources:
+  - "Baca, Philip, Greene and Battey (2022), NREL, Expert Elicitation for Wave Energy LCOE Futures, https://www.osti.gov/biblio/1885577"
+  - "Neary et al. (2016), Sandia National Laboratories, Levelized Cost of Energy for Marine Energy Conversion (MEC) Technologies, https://www.osti.gov/servlets/purl/1406167"
+  - "CorPower Ocean (2026), 24/7 Clean Energy at Lowest Cost, https://corpowerocean.com/247-clean-energy-wave-power/"
+  - "Têtu and Chozas (2021), Aalborg University, A Proposed Guidance for the Economic Assessment of Wave Energy Converters at Early Development Stages, Energies 14(15): 4699, https://doi.org/10.3390/en14154699"

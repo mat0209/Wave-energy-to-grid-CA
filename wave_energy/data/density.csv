@@ -1,0 +1,4 @@
+scenario,lane_m,cluster_width_km,cluster_length_km,area_km2,mw_per_cluster,mw_per_km2
+aggressive,0,0.60,1.05,0.630,8.4,13.3
+moderate,250,0.85,1.30,1.105,8.4,7.6
+conservative,500,1.10,1.55,1.705,8.4,4.9

@@ -1,0 +1,13 @@
+year,scenario,capex_musd_per_mw,opex_musd_per_mw_yr
+2025,aggressive,6.42,0.0257
+2025,moderate,9.33,0.0373
+2025,conservative,12.18,0.0487
+2030,aggressive,5.64,0.0226
+2030,moderate,7.31,0.0292
+2030,conservative,8.36,0.0334
+2040,aggressive,2.87,0.0115
+2040,moderate,3.91,0.0156
+2040,conservative,4.76,0.0190
+2050,aggressive,1.46,0.0058
+2050,moderate,2.09,0.0084
+2050,conservative,2.72,0.0109
