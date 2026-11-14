@@ -1,0 +1,16 @@
+[4bus_base_2035_highs] solving (2-4 min)...
+[4bus_base_2035_highs] solved in 447.5 min, peak RAM 3.8 GB, objective 9,882,161,921 $
+Wrote tables and figures to /Users/bryanmendoza/Downloads/_gh_compare/repo/outputs/4bus_base_2035_highs
+system cost G$              16.72
+CO2 in-state Mt             31.11
+CO2 incl. imports Mt        40.94
+CO2 price $/t               50.43
+avg CA price $/MWh          49.04
+solar GW                    88.14
+new battery GW               0.00
+gas (CCGT+OCGT+CCS) GW      27.72
+exports TWh                 19.72
+wave GW                      0.00
+wave TWh                     0.00
+renewable share %           53.10
+renewable share % hourly    51.22
