@@ -1,0 +1,25 @@
+[4bus_base_2035_wave-moderate_highs] solving (2-4 min)...
+wave: 5 sites, moderate 2035 capex 5.61 $M/MW, opex 0.0224 $M/MW-yr -> 552 k$/MW-yr, max 3,800 MW/site
+Traceback (most recent call last):
+  File "/Users/bryanmendoza/Downloads/_gh_compare/repo/notebooks/run_scenario.py", line 31, in <module>
+    n = ca.run_scenario(name, params, force=args.force, network=args.network)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bryanmendoza/Downloads/_gh_compare/repo/notebooks/ca_helpers.py", line 338, in run_scenario
+    n = solve(n, params, out / "solver.log", network)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bryanmendoza/Downloads/_gh_compare/repo/notebooks/ca_helpers.py", line 261, in solve
+    sn.solve_network(
+  File "/Users/bryanmendoza/Downloads/_gh_compare/repo/pypsa-usa/workflow/scripts/solve_network.py", line 358, in solve_network
+    run_optimize(n, rolling_horizon, skip_iterations, cf_solving, **kwargs)
+  File "/Users/bryanmendoza/Downloads/_gh_compare/repo/pypsa-usa/workflow/scripts/solve_network.py", line 241, in run_optimize
+    status, condition = n.optimize(**kwargs)
+                        ^^^^^^^^^^^^^^^^^^^^
+  File "/Users/bryanmendoza/Downloads/_gh_compare/repo/pypsa-usa/.venv/lib/python3.11/site-packages/pypsa/optimization/optimize.py", line 654, in __call__
+    n.consistency_check(
+  File "/Users/bryanmendoza/Downloads/_gh_compare/repo/pypsa-usa/.venv/lib/python3.11/site-packages/pypsa/consistency.py", line 1024, in consistency_check
+    check_cost_consistency(c)
+  File "/Users/bryanmendoza/Downloads/_gh_compare/repo/pypsa-usa/.venv/lib/python3.11/site-packages/pypsa/consistency.py", line 609, in check_cost_consistency
+    _log_or_raise(
+  File "/Users/bryanmendoza/Downloads/_gh_compare/repo/pypsa-usa/.venv/lib/python3.11/site-packages/pypsa/consistency.py", line 48, in _log_or_raise
+    raise ConsistencyError(formatted_message)
+pypsa.consistency.ConsistencyError: Component Generator has assets with 'overnight_cost' set but missing 'discount_rate': WECC_F wave, WECC_G wave, WECC_H wave, WECC_I wave, WECC_J wave. Provide discount_rate for annuitization.

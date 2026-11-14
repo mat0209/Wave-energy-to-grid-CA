@@ -1,0 +1,56 @@
+/Users/bryanmendoza/Downloads/_gh_compare/repo/notebooks/wave_power.py:154: RuntimeWarning:
+
+invalid value encountered in divide
+
+/Users/bryanmendoza/Downloads/_gh_compare/repo/notebooks/wave_power.py:155: RuntimeWarning:
+
+invalid value encountered in divide
+
+/Users/bryanmendoza/Downloads/_gh_compare/repo/notebooks/wave_power.py:154: RuntimeWarning:
+
+invalid value encountered in divide
+
+/Users/bryanmendoza/Downloads/_gh_compare/repo/notebooks/wave_power.py:155: RuntimeWarning:
+
+invalid value encountered in divide
+
+/Users/bryanmendoza/Downloads/_gh_compare/repo/notebooks/wave_power.py:154: RuntimeWarning:
+
+invalid value encountered in divide
+
+/Users/bryanmendoza/Downloads/_gh_compare/repo/notebooks/wave_power.py:155: RuntimeWarning:
+
+invalid value encountered in divide
+
+/Users/bryanmendoza/Downloads/_gh_compare/repo/notebooks/wave_power.py:154: RuntimeWarning:
+
+invalid value encountered in divide
+
+/Users/bryanmendoza/Downloads/_gh_compare/repo/notebooks/wave_power.py:155: RuntimeWarning:
+
+invalid value encountered in divide
+
+[4bus_base_2035_wave-moderate_highs] solving (2-4 min)...
+wave: 5 sites, moderate 2035 capex 5.61 $M/MW, opex 0.0224 $M/MW-yr -> 552 k$/MW-yr, max 3,800 MW/site
+[4bus_base_2035_wave-moderate_highs] solved in 455.5 min, peak RAM 4.7 GB, objective 9,882,151,635 $
+Wrote tables and figures to /Users/bryanmendoza/Downloads/_gh_compare/repo/outputs/4bus_base_2035_wave-moderate_highs
+system cost G$              16.72
+CO2 in-state Mt             31.11
+CO2 incl. imports Mt        40.94
+CO2 price $/t               50.43
+avg CA price $/MWh          99.38
+solar GW                    88.14
+new battery GW               0.00
+gas (CCGT+OCGT+CCS) GW      27.72
+exports TWh                 19.72
+wave GW                      0.00
+wave TWh                     0.00
+renewable share %           53.10
+renewable share % hourly    51.22
+        built_MW  energy_TWh  capacity_factor  curtailed_%  cable_MW
+WECC_F       0.0         0.0              NaN          NaN       0.0
+WECC_G       0.0         0.0              NaN          NaN       0.0
+WECC_H       0.0         0.0              NaN          NaN       0.0
+WECC_I       0.0         0.0              NaN          NaN       0.0
+WECC_J       0.0         0.0              NaN          NaN       0.0
+TOTAL        0.0         0.0              NaN          NaN       0.0
