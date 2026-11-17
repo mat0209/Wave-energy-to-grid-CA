@@ -1,0 +1,345 @@
+~/Downloads/_gh_compare/repo/pypsa-usa/.venv/lib/python3.11/site-packages/pypsa/network/io.py:2082: FutureWarning:
+
+pandas infers the `str` dtype for string data since its version 3.0. PyPSA still converts it back to numpy object dtype on import, but will keep it from PyPSA 2.0 on. Set `pypsa.options.api.legacy_string_dtype` explicitly to suppress this warning.
+
+solver: gurobi
+Writing constraints.:   0%|[38;2;128;191;255m          [0m| 0/40 [00:00<?, ?it/s]Writing constraints.:  40%|[38;2;128;191;255m████      [0m| 16/40 [00:00<00:00, 146.09it/s]Writing constraints.: 100%|[38;2;128;191;255m██████████[0m| 40/40 [00:00<00:00, 231.77it/s]
+Writing continuous variables.:   0%|[38;2;128;191;255m          [0m| 0/11 [00:00<?, ?it/s]Writing continuous variables.: 100%|[38;2;128;191;255m██████████[0m| 11/11 [00:00<00:00, 728.24it/s]
+Set parameter Username
+Set parameter LicenseID to value <redacted>
+Academic license <redacted>- for non-commercial use only - expires 2027-11-13
+Read LP format model from file /private/var/folders/m5/zn2x_45s5yd_19nck4ynt3hh0000gp/T/linopy-problem-mtt2hx8j.lp
+Reading time = 0.62 seconds
+obj: 659892 rows, 294925 columns, 1590636 nonzeros
+Set parameter Threads to value 8
+least_cost_none_2030               cost $  776.5M  RPS  56.8%  wave     0.0 MW  new solar   1002  batt      0  biodiesel     0  OSW     0  shed      0 MWh
+Writing constraints.:   0%|[38;2;128;191;255m          [0m| 0/40 [00:00<?, ?it/s]Writing constraints.:  52%|[38;2;128;191;255m█████▎    [0m| 21/40 [00:00<00:00, 206.13it/s]Writing constraints.: 100%|[38;2;128;191;255m██████████[0m| 40/40 [00:00<00:00, 253.41it/s]
+Writing continuous variables.:   0%|[38;2;128;191;255m          [0m| 0/11 [00:00<?, ?it/s]Writing continuous variables.: 100%|[38;2;128;191;255m██████████[0m| 11/11 [00:00<00:00, 759.41it/s]
+Set parameter Username
+Set parameter LicenseID to value <redacted>
+Academic license <redacted>- for non-commercial use only - expires 2027-11-13
+Read LP format model from file /private/var/folders/m5/zn2x_45s5yd_19nck4ynt3hh0000gp/T/linopy-problem-gcwfl1zf.lp
+Reading time = 0.62 seconds
+obj: 671572 rows, 300765 columns, 1608156 nonzeros
+Set parameter Threads to value 8
+least_cost_none_2040               cost $  775.0M  RPS  59.8%  wave     0.0 MW  new solar    198  batt     70  biodiesel     0  OSW     0  shed      0 MWh
+Writing constraints.:   0%|[38;2;128;191;255m          [0m| 0/40 [00:00<?, ?it/s]Writing constraints.:  55%|[38;2;128;191;255m█████▌    [0m| 22/40 [00:00<00:00, 217.80it/s]Writing constraints.: 100%|[38;2;128;191;255m██████████[0m| 40/40 [00:00<00:00, 256.65it/s]
+Writing continuous variables.:   0%|[38;2;128;191;255m          [0m| 0/11 [00:00<?, ?it/s]Writing continuous variables.: 100%|[38;2;128;191;255m██████████[0m| 11/11 [00:00<00:00, 746.43it/s]
+Set parameter Username
+Set parameter LicenseID to value <redacted>
+Academic license <redacted>- for non-commercial use only - expires 2027-11-13
+Read LP format model from file /private/var/folders/m5/zn2x_45s5yd_19nck4ynt3hh0000gp/T/linopy-problem-wzk8nd2h.lp
+Reading time = 0.66 seconds
+obj: 709532 rows, 318285 columns, 1681156 nonzeros
+Set parameter Threads to value 8
+least_cost_none_2045               cost $  773.9M  RPS  63.5%  wave     0.0 MW  new solar    202  batt    149  biodiesel     0  OSW     0  shed      0 MWh
+Writing constraints.:   0%|[38;2;128;191;255m          [0m| 0/56 [00:00<?, ?it/s]Writing constraints.:  36%|[38;2;128;191;255m███▌      [0m| 20/56 [00:00<00:00, 198.31it/s]Writing constraints.: 100%|[38;2;128;191;255m██████████[0m| 56/56 [00:00<00:00, 279.96it/s]
+Writing continuous variables.:   0%|[38;2;128;191;255m          [0m| 0/14 [00:00<?, ?it/s]Writing continuous variables.: 100%|[38;2;128;191;255m██████████[0m| 14/14 [00:00<00:00, 747.47it/s]
+Set parameter Username
+Set parameter LicenseID to value <redacted>
+Academic license <redacted>- for non-commercial use only - expires 2027-11-13
+Read LP format model from file /private/var/folders/m5/zn2x_45s5yd_19nck4ynt3hh0000gp/T/linopy-problem-2cp1wgsn.lp
+Reading time = 0.68 seconds
+obj: 782550 rows, 347497 columns, 1835934 nonzeros
+Set parameter Threads to value 8
+least_cost_aggressive_2030         cost $  714.7M  RPS  77.7%  wave   628.5 MW  new solar    362  batt      0  biodiesel     0  OSW     0  shed      0 MWh
+Writing constraints.:   0%|[38;2;128;191;255m          [0m| 0/58 [00:00<?, ?it/s]Writing constraints.:  31%|[38;2;128;191;255m███       [0m| 18/58 [00:00<00:00, 179.81it/s]Writing constraints.:  93%|[38;2;128;191;255m█████████▎[0m| 54/58 [00:00<00:00, 282.25it/s]Writing constraints.: 100%|[38;2;128;191;255m██████████[0m| 58/58 [00:00<00:00, 266.93it/s]
+Writing continuous variables.:   0%|[38;2;128;191;255m          [0m| 0/14 [00:00<?, ?it/s]Writing continuous variables.: 100%|[38;2;128;191;255m██████████[0m| 14/14 [00:00<00:00, 761.58it/s]
+Set parameter Username
+Set parameter LicenseID to value <redacted>
+Academic license <redacted>- for non-commercial use only - expires 2027-11-13
+Read LP format model from file /private/var/folders/m5/zn2x_45s5yd_19nck4ynt3hh0000gp/T/linopy-problem-pdkr0ree.lp
+Reading time = 0.73 seconds
+obj: 805910 rows, 359177 columns, 1873894 nonzeros
+Set parameter Threads to value 8
+least_cost_aggressive_2040         cost $  673.6M  RPS  89.2%  wave   996.5 MW  new solar      0  batt      0  biodiesel     0  OSW     0  shed      0 MWh
+Writing constraints.:   0%|[38;2;128;191;255m          [0m| 0/58 [00:00<?, ?it/s]Writing constraints.:  33%|[38;2;128;191;255m███▎      [0m| 19/58 [00:00<00:00, 188.05it/s]Writing constraints.:  97%|[38;2;128;191;255m█████████▋[0m| 56/58 [00:00<00:00, 294.07it/s]Writing constraints.: 100%|[38;2;128;191;255m██████████[0m| 58/58 [00:00<00:00, 274.63it/s]
+Writing continuous variables.:   0%|[38;2;128;191;255m          [0m| 0/14 [00:00<?, ?it/s]Writing continuous variables.: 100%|[38;2;128;191;255m██████████[0m| 14/14 [00:00<00:00, 719.87it/s]
+Set parameter Username
+Set parameter LicenseID to value <redacted>
+Academic license <redacted>- for non-commercial use only - expires 2027-11-13
+Read LP format model from file /private/var/folders/m5/zn2x_45s5yd_19nck4ynt3hh0000gp/T/linopy-problem-ky6l7a_x.lp
+Reading time = 0.76 seconds
+obj: 817590 rows, 365017 columns, 1894334 nonzeros
+Set parameter Threads to value 8
+least_cost_aggressive_2045         cost $  666.2M  RPS  93.3%  wave  1211.4 MW  new solar      0  batt      0  biodiesel     0  OSW     0  shed      0 MWh
+Writing constraints.:   0%|[38;2;128;191;255m          [0m| 0/56 [00:00<?, ?it/s]Writing constraints.:  36%|[38;2;128;191;255m███▌      [0m| 20/56 [00:00<00:00, 198.39it/s]Writing constraints.: 100%|[38;2;128;191;255m██████████[0m| 56/56 [00:00<00:00, 289.67it/s]
+Writing continuous variables.:   0%|[38;2;128;191;255m          [0m| 0/14 [00:00<?, ?it/s]Writing continuous variables.: 100%|[38;2;128;191;255m██████████[0m| 14/14 [00:00<00:00, 811.60it/s]
+Set parameter Username
+Set parameter LicenseID to value <redacted>
+Academic license <redacted>- for non-commercial use only - expires 2027-11-13
+Read LP format model from file /private/var/folders/m5/zn2x_45s5yd_19nck4ynt3hh0000gp/T/linopy-problem-l2e95kse.lp
+Reading time = 0.69 seconds
+obj: 782550 rows, 347497 columns, 1835934 nonzeros
+Set parameter Threads to value 8
+least_cost_moderate_2030           cost $  776.4M  RPS  58.6%  wave    44.4 MW  new solar    959  batt      0  biodiesel     0  OSW     0  shed      0 MWh
+Writing constraints.:   0%|[38;2;128;191;255m          [0m| 0/58 [00:00<?, ?it/s]Writing constraints.:  34%|[38;2;128;191;255m███▍      [0m| 20/58 [00:00<00:00, 199.94it/s]Writing constraints.: 100%|[38;2;128;191;255m██████████[0m| 58/58 [00:00<00:00, 297.74it/s]Writing constraints.: 100%|[38;2;128;191;255m██████████[0m| 58/58 [00:00<00:00, 283.26it/s]
+Writing continuous variables.:   0%|[38;2;128;191;255m          [0m| 0/14 [00:00<?, ?it/s]Writing continuous variables.: 100%|[38;2;128;191;255m██████████[0m| 14/14 [00:00<00:00, 799.23it/s]
+Set parameter Username
+Set parameter LicenseID to value <redacted>
+Academic license <redacted>- for non-commercial use only - expires 2027-11-13
+Read LP format model from file /private/var/folders/m5/zn2x_45s5yd_19nck4ynt3hh0000gp/T/linopy-problem-tdqlkmzx.lp
+Reading time = 0.69 seconds
+obj: 805910 rows, 359177 columns, 1873894 nonzeros
+Set parameter Threads to value 8
+least_cost_moderate_2040           cost $  661.5M  RPS  85.5%  wave   661.9 MW  new solar      0  batt     25  biodiesel     0  OSW     0  shed      0 MWh
+Writing constraints.:   0%|[38;2;128;191;255m          [0m| 0/58 [00:00<?, ?it/s]Writing constraints.:  31%|[38;2;128;191;255m███       [0m| 18/58 [00:00<00:00, 178.81it/s]Writing constraints.:  97%|[38;2;128;191;255m█████████▋[0m| 56/58 [00:00<00:00, 293.62it/s]Writing constraints.: 100%|[38;2;128;191;255m██████████[0m| 58/58 [00:00<00:00, 272.07it/s]
+Writing continuous variables.:   0%|[38;2;128;191;255m          [0m| 0/14 [00:00<?, ?it/s]Writing continuous variables.: 100%|[38;2;128;191;255m██████████[0m| 14/14 [00:00<00:00, 775.50it/s]
+Set parameter Username
+Set parameter LicenseID to value <redacted>
+Academic license <redacted>- for non-commercial use only - expires 2027-11-13
+Read LP format model from file /private/var/folders/m5/zn2x_45s5yd_19nck4ynt3hh0000gp/T/linopy-problem-loocqvjj.lp
+Reading time = 0.76 seconds
+obj: 849710 rows, 379617 columns, 1958574 nonzeros
+Set parameter Threads to value 8
+least_cost_moderate_2045           cost $  657.3M  RPS  87.9%  wave   767.2 MW  new solar      0  batt      0  biodiesel     0  OSW     0  shed      0 MWh
+Writing constraints.:   0%|[38;2;128;191;255m          [0m| 0/56 [00:00<?, ?it/s]Writing constraints.:  36%|[38;2;128;191;255m███▌      [0m| 20/56 [00:00<00:00, 198.70it/s]Writing constraints.: 100%|[38;2;128;191;255m██████████[0m| 56/56 [00:00<00:00, 289.79it/s]
+Writing continuous variables.:   0%|[38;2;128;191;255m          [0m| 0/14 [00:00<?, ?it/s]Writing continuous variables.: 100%|[38;2;128;191;255m██████████[0m| 14/14 [00:00<00:00, 810.48it/s]
+Set parameter Username
+Set parameter LicenseID to value <redacted>
+Academic license <redacted>- for non-commercial use only - expires 2027-11-13
+Read LP format model from file /private/var/folders/m5/zn2x_45s5yd_19nck4ynt3hh0000gp/T/linopy-problem-p4bk0p4h.lp
+Reading time = 0.69 seconds
+obj: 782550 rows, 347497 columns, 1835934 nonzeros
+Set parameter Threads to value 8
+least_cost_conservative_2030       cost $  776.5M  RPS  56.8%  wave     0.0 MW  new solar   1002  batt      0  biodiesel     0  OSW     0  shed      0 MWh
+Writing constraints.:   0%|[38;2;128;191;255m          [0m| 0/56 [00:00<?, ?it/s]Writing constraints.:  36%|[38;2;128;191;255m███▌      [0m| 20/56 [00:00<00:00, 197.47it/s]Writing constraints.: 100%|[38;2;128;191;255m██████████[0m| 56/56 [00:00<00:00, 287.89it/s]
+Writing continuous variables.:   0%|[38;2;128;191;255m          [0m| 0/14 [00:00<?, ?it/s]Writing continuous variables.: 100%|[38;2;128;191;255m██████████[0m| 14/14 [00:00<00:00, 808.07it/s]
+Set parameter Username
+Set parameter LicenseID to value <redacted>
+Academic license <redacted>- for non-commercial use only - expires 2027-11-13
+Read LP format model from file /private/var/folders/m5/zn2x_45s5yd_19nck4ynt3hh0000gp/T/linopy-problem-jtgph836.lp
+Reading time = 0.69 seconds
+obj: 794230 rows, 353337 columns, 1853454 nonzeros
+Set parameter Threads to value 8
+least_cost_conservative_2040       cost $  699.0M  RPS  81.4%  wave   502.1 MW  new solar      0  batt    106  biodiesel     0  OSW     0  shed      0 MWh
+Writing constraints.:   0%|[38;2;128;191;255m          [0m| 0/58 [00:00<?, ?it/s]Writing constraints.:  36%|[38;2;128;191;255m███▌      [0m| 21/58 [00:00<00:00, 207.78it/s]Writing constraints.: 100%|[38;2;128;191;255m██████████[0m| 58/58 [00:00<00:00, 300.31it/s]Writing constraints.: 100%|[38;2;128;191;255m██████████[0m| 58/58 [00:00<00:00, 286.30it/s]
+Writing continuous variables.:   0%|[38;2;128;191;255m          [0m| 0/14 [00:00<?, ?it/s]Writing continuous variables.: 100%|[38;2;128;191;255m██████████[0m| 14/14 [00:00<00:00, 803.13it/s]
+Set parameter Username
+Set parameter LicenseID to value <redacted>
+Academic license <redacted>- for non-commercial use only - expires 2027-11-13
+Read LP format model from file /private/var/folders/m5/zn2x_45s5yd_19nck4ynt3hh0000gp/T/linopy-problem-h30ib3lw.lp
+Reading time = 0.73 seconds
+obj: 838030 rows, 373777 columns, 1938134 nonzeros
+Set parameter Threads to value 8
+least_cost_conservative_2045       cost $  691.0M  RPS  86.5%  wave   654.9 MW  new solar      0  batt      0  biodiesel     0  OSW     0  shed      0 MWh
+Writing constraints.:   0%|[38;2;128;191;255m          [0m| 0/41 [00:00<?, ?it/s]Writing constraints.:  59%|[38;2;128;191;255m█████▊    [0m| 24/41 [00:00<00:00, 235.83it/s]Writing constraints.: 100%|[38;2;128;191;255m██████████[0m| 41/41 [00:00<00:00, 252.68it/s]
+Writing continuous variables.:   0%|[38;2;128;191;255m          [0m| 0/11 [00:00<?, ?it/s]Writing continuous variables.: 100%|[38;2;128;191;255m██████████[0m| 11/11 [00:00<00:00, 812.84it/s]
+Set parameter Username
+Set parameter LicenseID to value <redacted>
+Academic license <redacted>- for non-commercial use only - expires 2027-11-13
+Read LP format model from file /private/var/folders/m5/zn2x_45s5yd_19nck4ynt3hh0000gp/T/linopy-problem-rfu225j2.lp
+Reading time = 0.61 seconds
+obj: 659893 rows, 294925 columns, 1695756 nonzeros
+Set parameter Threads to value 8
+rps_none_2030                      cost $  776.5M  RPS  56.8%  wave     0.0 MW  new solar   1002  batt      0  biodiesel     0  OSW     0  shed      0 MWh
+Writing constraints.:   0%|[38;2;128;191;255m          [0m| 0/41 [00:00<?, ?it/s]Writing constraints.:  49%|[38;2;128;191;255m████▉     [0m| 20/41 [00:00<00:00, 197.00it/s]Writing constraints.: 100%|[38;2;128;191;255m██████████[0m| 41/41 [00:00<00:00, 240.51it/s]
+Writing continuous variables.:   0%|[38;2;128;191;255m          [0m| 0/11 [00:00<?, ?it/s]Writing continuous variables.: 100%|[38;2;128;191;255m██████████[0m| 11/11 [00:00<00:00, 784.09it/s]
+Set parameter Username
+Set parameter LicenseID to value <redacted>
+Academic license <redacted>- for non-commercial use only - expires 2027-11-13
+Read LP format model from file /private/var/folders/m5/zn2x_45s5yd_19nck4ynt3hh0000gp/T/linopy-problem-gomn9h0z.lp
+Reading time = 0.63 seconds
+obj: 671573 rows, 300765 columns, 1719116 nonzeros
+Set parameter Threads to value 8
+rps_none_2040                      cost $  808.6M  RPS  70.0%  wave     0.0 MW  new solar    498  batt    459  biodiesel     0  OSW   124  shed      0 MWh
+Writing constraints.:   0%|[38;2;128;191;255m          [0m| 0/40 [00:00<?, ?it/s]Writing constraints.:  80%|[38;2;128;191;255m████████  [0m| 32/40 [00:00<00:00, 309.78it/s]Writing constraints.: 100%|[38;2;128;191;255m██████████[0m| 40/40 [00:00<00:00, 312.50it/s]
+Writing continuous variables.:   0%|[38;2;128;191;255m          [0m| 0/11 [00:00<?, ?it/s]Writing continuous variables.: 100%|[38;2;128;191;255m██████████[0m| 11/11 [00:00<00:00, 847.46it/s]
+Set parameter Username
+Set parameter LicenseID to value <redacted>
+Academic license <redacted>- for non-commercial use only - expires 2027-11-13
+Read LP format model from file /private/var/folders/m5/zn2x_45s5yd_19nck4ynt3hh0000gp/T/linopy-problem-u4ewp6ah.lp
+Reading time = 0.23 seconds
+obj: 265727 rows, 122645 columns, 510448 nonzeros
+Set parameter Threads to value 8
+rps_none_2045                      cost $ 1322.6M  RPS 100.0%  wave     0.0 MW  new solar      0  batt    205  biodiesel   474  OSW   205  shed      0 MWh
+Writing constraints.:   0%|[38;2;128;191;255m          [0m| 0/57 [00:00<?, ?it/s]Writing constraints.:  35%|[38;2;128;191;255m███▌      [0m| 20/57 [00:00<00:00, 199.19it/s]Writing constraints.: 100%|[38;2;128;191;255m██████████[0m| 57/57 [00:00<00:00, 298.69it/s]Writing constraints.: 100%|[38;2;128;191;255m██████████[0m| 57/57 [00:00<00:00, 283.63it/s]
+Writing continuous variables.:   0%|[38;2;128;191;255m          [0m| 0/14 [00:00<?, ?it/s]Writing continuous variables.: 100%|[38;2;128;191;255m██████████[0m| 14/14 [00:00<00:00, 821.22it/s]
+Set parameter Username
+Set parameter LicenseID to value <redacted>
+Academic license <redacted>- for non-commercial use only - expires 2027-11-13
+Read LP format model from file /private/var/folders/m5/zn2x_45s5yd_19nck4ynt3hh0000gp/T/linopy-problem-qb8480ma.lp
+Reading time = 0.74 seconds
+obj: 782551 rows, 347497 columns, 1958574 nonzeros
+Set parameter Threads to value 8
+rps_aggressive_2030                cost $  714.7M  RPS  77.7%  wave   628.5 MW  new solar    362  batt      0  biodiesel     0  OSW     0  shed      0 MWh
+Writing constraints.:   0%|[38;2;128;191;255m          [0m| 0/59 [00:00<?, ?it/s]Writing constraints.:  37%|[38;2;128;191;255m███▋      [0m| 22/59 [00:00<00:00, 214.23it/s]Writing constraints.:  98%|[38;2;128;191;255m█████████▊[0m| 58/59 [00:00<00:00, 298.67it/s]Writing constraints.: 100%|[38;2;128;191;255m██████████[0m| 59/59 [00:00<00:00, 282.39it/s]
+Writing continuous variables.:   0%|[38;2;128;191;255m          [0m| 0/14 [00:00<?, ?it/s]Writing continuous variables.: 100%|[38;2;128;191;255m██████████[0m| 14/14 [00:00<00:00, 801.70it/s]
+Set parameter Username
+Set parameter LicenseID to value <redacted>
+Academic license <redacted>- for non-commercial use only - expires 2027-11-13
+Read LP format model from file /private/var/folders/m5/zn2x_45s5yd_19nck4ynt3hh0000gp/T/linopy-problem-8euy9h4r.lp
+Reading time = 0.72 seconds
+obj: 805911 rows, 359177 columns, 2005294 nonzeros
+Set parameter Threads to value 8
+rps_aggressive_2040                cost $  673.6M  RPS  89.1%  wave   996.5 MW  new solar      0  batt      0  biodiesel     0  OSW     0  shed      0 MWh
+Writing constraints.:   0%|[38;2;128;191;255m          [0m| 0/58 [00:00<?, ?it/s]Writing constraints.:  66%|[38;2;128;191;255m██████▌   [0m| 38/58 [00:00<00:00, 361.40it/s]Writing constraints.: 100%|[38;2;128;191;255m██████████[0m| 58/58 [00:00<00:00, 372.84it/s]
+Writing continuous variables.:   0%|[38;2;128;191;255m          [0m| 0/14 [00:00<?, ?it/s]Writing continuous variables.: 100%|[38;2;128;191;255m██████████[0m| 14/14 [00:00<00:00, 969.32it/s]
+Set parameter Username
+Set parameter LicenseID to value <redacted>
+Academic license <redacted>- for non-commercial use only - expires 2027-11-13
+Read LP format model from file /private/var/folders/m5/zn2x_45s5yd_19nck4ynt3hh0000gp/T/linopy-problem-h0v1iwro.lp
+Reading time = 0.30 seconds
+obj: 367945 rows, 166457 columns, 714866 nonzeros
+Set parameter Threads to value 8
+rps_aggressive_2045                cost $  760.6M  RPS 100.0%  wave  1714.1 MW  new solar      0  batt     34  biodiesel   148  OSW     0  shed      0 MWh
+Writing constraints.:   0%|[38;2;128;191;255m          [0m| 0/57 [00:00<?, ?it/s]Writing constraints.:  35%|[38;2;128;191;255m███▌      [0m| 20/57 [00:00<00:00, 199.51it/s]Writing constraints.: 100%|[38;2;128;191;255m██████████[0m| 57/57 [00:00<00:00, 296.59it/s]Writing constraints.: 100%|[38;2;128;191;255m██████████[0m| 57/57 [00:00<00:00, 281.99it/s]
+Writing continuous variables.:   0%|[38;2;128;191;255m          [0m| 0/14 [00:00<?, ?it/s]Writing continuous variables.: 100%|[38;2;128;191;255m██████████[0m| 14/14 [00:00<00:00, 833.53it/s]
+Set parameter Username
+Set parameter LicenseID to value <redacted>
+Academic license <redacted>- for non-commercial use only - expires 2027-11-13
+Read LP format model from file /private/var/folders/m5/zn2x_45s5yd_19nck4ynt3hh0000gp/T/linopy-problem-9r6vsurh.lp
+Reading time = 0.77 seconds
+obj: 782551 rows, 347497 columns, 1958574 nonzeros
+Set parameter Threads to value 8
+rps_moderate_2030                  cost $  776.4M  RPS  58.6%  wave    44.4 MW  new solar    959  batt      0  biodiesel     0  OSW     0  shed      0 MWh
+Writing constraints.:   0%|[38;2;128;191;255m          [0m| 0/59 [00:00<?, ?it/s]Writing constraints.:  36%|[38;2;128;191;255m███▌      [0m| 21/59 [00:00<00:00, 205.46it/s]Writing constraints.:  97%|[38;2;128;191;255m█████████▋[0m| 57/59 [00:00<00:00, 291.93it/s]Writing constraints.: 100%|[38;2;128;191;255m██████████[0m| 59/59 [00:00<00:00, 277.00it/s]
+Writing continuous variables.:   0%|[38;2;128;191;255m          [0m| 0/14 [00:00<?, ?it/s]Writing continuous variables.: 100%|[38;2;128;191;255m██████████[0m| 14/14 [00:00<00:00, 776.39it/s]
+Set parameter Username
+Set parameter LicenseID to value <redacted>
+Academic license <redacted>- for non-commercial use only - expires 2027-11-13
+Read LP format model from file /private/var/folders/m5/zn2x_45s5yd_19nck4ynt3hh0000gp/T/linopy-problem-ja6dhoei.lp
+Reading time = 0.74 seconds
+obj: 805911 rows, 359177 columns, 2005294 nonzeros
+Set parameter Threads to value 8
+rps_moderate_2040                  cost $  661.5M  RPS  85.5%  wave   661.9 MW  new solar      0  batt     25  biodiesel     0  OSW     0  shed      0 MWh
+Writing constraints.:   0%|[38;2;128;191;255m          [0m| 0/58 [00:00<?, ?it/s]Writing constraints.:  66%|[38;2;128;191;255m██████▌   [0m| 38/58 [00:00<00:00, 349.85it/s]Writing constraints.: 100%|[38;2;128;191;255m██████████[0m| 58/58 [00:00<00:00, 363.79it/s]
+Writing continuous variables.:   0%|[38;2;128;191;255m          [0m| 0/14 [00:00<?, ?it/s]Writing continuous variables.: 100%|[38;2;128;191;255m██████████[0m| 14/14 [00:00<00:00, 977.66it/s]
+Set parameter Username
+Set parameter LicenseID to value <redacted>
+Academic license <redacted>- for non-commercial use only - expires 2027-11-13
+Read LP format model from file /private/var/folders/m5/zn2x_45s5yd_19nck4ynt3hh0000gp/T/linopy-problem-fhtukmtz.lp
+Reading time = 0.34 seconds
+obj: 400065 rows, 181057 columns, 779106 nonzeros
+Set parameter Threads to value 8
+rps_moderate_2045                  cost $  810.6M  RPS 100.0%  wave  1337.9 MW  new solar      0  batt    276  biodiesel   129  OSW     0  shed      0 MWh
+Writing constraints.:   0%|[38;2;128;191;255m          [0m| 0/57 [00:00<?, ?it/s]Writing constraints.:  37%|[38;2;128;191;255m███▋      [0m| 21/57 [00:00<00:00, 209.90it/s]Writing constraints.: 100%|[38;2;128;191;255m██████████[0m| 57/57 [00:00<00:00, 296.02it/s]Writing constraints.: 100%|[38;2;128;191;255m██████████[0m| 57/57 [00:00<00:00, 283.01it/s]
+Writing continuous variables.:   0%|[38;2;128;191;255m          [0m| 0/14 [00:00<?, ?it/s]Writing continuous variables.: 100%|[38;2;128;191;255m██████████[0m| 14/14 [00:00<00:00, 823.96it/s]
+Set parameter Username
+Set parameter LicenseID to value <redacted>
+Academic license <redacted>- for non-commercial use only - expires 2027-11-13
+Read LP format model from file /private/var/folders/m5/zn2x_45s5yd_19nck4ynt3hh0000gp/T/linopy-problem-9ixzo2so.lp
+Reading time = 0.71 seconds
+obj: 782551 rows, 347497 columns, 1958574 nonzeros
+Set parameter Threads to value 8
+rps_conservative_2030              cost $  776.5M  RPS  56.8%  wave     0.0 MW  new solar   1002  batt      0  biodiesel     0  OSW     0  shed      0 MWh
+Writing constraints.:   0%|[38;2;128;191;255m          [0m| 0/57 [00:00<?, ?it/s]Writing constraints.:  37%|[38;2;128;191;255m███▋      [0m| 21/57 [00:00<00:00, 207.65it/s]Writing constraints.: 100%|[38;2;128;191;255m██████████[0m| 57/57 [00:00<00:00, 291.50it/s]Writing constraints.: 100%|[38;2;128;191;255m██████████[0m| 57/57 [00:00<00:00, 278.89it/s]
+Writing continuous variables.:   0%|[38;2;128;191;255m          [0m| 0/14 [00:00<?, ?it/s]Writing continuous variables.: 100%|[38;2;128;191;255m██████████[0m| 14/14 [00:00<00:00, 790.74it/s]
+Set parameter Username
+Set parameter LicenseID to value <redacted>
+Academic license <redacted>- for non-commercial use only - expires 2027-11-13
+Read LP format model from file /private/var/folders/m5/zn2x_45s5yd_19nck4ynt3hh0000gp/T/linopy-problem-lcm97bcl.lp
+Reading time = 0.72 seconds
+obj: 794231 rows, 353337 columns, 1981934 nonzeros
+Set parameter Threads to value 8
+rps_conservative_2040              cost $  699.0M  RPS  81.4%  wave   502.1 MW  new solar      0  batt    106  biodiesel     0  OSW     0  shed      0 MWh
+Writing constraints.:   0%|[38;2;128;191;255m          [0m| 0/58 [00:00<?, ?it/s]Writing constraints.:  64%|[38;2;128;191;255m██████▍   [0m| 37/58 [00:00<00:00, 363.78it/s]Writing constraints.: 100%|[38;2;128;191;255m██████████[0m| 58/58 [00:00<00:00, 357.03it/s]
+Writing continuous variables.:   0%|[38;2;128;191;255m          [0m| 0/14 [00:00<?, ?it/s]Writing continuous variables.: 100%|[38;2;128;191;255m██████████[0m| 14/14 [00:00<00:00, 948.97it/s]
+Set parameter Username
+Set parameter LicenseID to value <redacted>
+Academic license <redacted>- for non-commercial use only - expires 2027-11-13
+Read LP format model from file /private/var/folders/m5/zn2x_45s5yd_19nck4ynt3hh0000gp/T/linopy-problem-4zyu349k.lp
+Reading time = 0.34 seconds
+obj: 388385 rows, 175217 columns, 758666 nonzeros
+Set parameter Threads to value 8
+rps_conservative_2045              cost $  870.7M  RPS 100.0%  wave  1095.9 MW  new solar      0  batt    377  biodiesel   160  OSW     0  shed      0 MWh
+Writing constraints.:   0%|[38;2;128;191;255m          [0m| 0/56 [00:00<?, ?it/s]Writing constraints.:  61%|[38;2;128;191;255m██████    [0m| 34/56 [00:00<00:00, 328.24it/s]Writing constraints.: 100%|[38;2;128;191;255m██████████[0m| 56/56 [00:00<00:00, 329.69it/s]
+Writing continuous variables.:   0%|[38;2;128;191;255m          [0m| 0/14 [00:00<?, ?it/s]Writing continuous variables.: 100%|[38;2;128;191;255m██████████[0m| 14/14 [00:00<00:00, 914.90it/s]
+Set parameter Username
+Set parameter LicenseID to value <redacted>
+Academic license <redacted>- for non-commercial use only - expires 2027-11-13
+Read LP format model from file /private/var/folders/m5/zn2x_45s5yd_19nck4ynt3hh0000gp/T/linopy-problem-mjuk8kl7.lp
+Reading time = 0.34 seconds
+obj: 388385 rows, 175217 columns, 755746 nonzeros
+Set parameter Threads to value 8
+sweep_1                            cost $  563.5M  RPS 100.0%  wave  1407.9 MW  new solar      0  batt      0  biodiesel     0  OSW     0  shed      0 MWh
+Writing constraints.:   0%|[38;2;128;191;255m          [0m| 0/56 [00:00<?, ?it/s]Writing constraints.:  66%|[38;2;128;191;255m██████▌   [0m| 37/56 [00:00<00:00, 363.68it/s]Writing constraints.: 100%|[38;2;128;191;255m██████████[0m| 56/56 [00:00<00:00, 378.49it/s]
+Writing continuous variables.:   0%|[38;2;128;191;255m          [0m| 0/14 [00:00<?, ?it/s]Writing continuous variables.: 100%|[38;2;128;191;255m██████████[0m| 14/14 [00:00<00:00, 983.42it/s]
+Set parameter Username
+Set parameter LicenseID to value <redacted>
+Academic license <redacted>- for non-commercial use only - expires 2027-11-13
+Read LP format model from file /private/var/folders/m5/zn2x_45s5yd_19nck4ynt3hh0000gp/T/linopy-problem-a7nokkzs.lp
+Reading time = 0.32 seconds
+obj: 388385 rows, 175217 columns, 755746 nonzeros
+Set parameter Threads to value 8
+sweep_1.5                          cost $  630.9M  RPS 100.0%  wave  1332.0 MW  new solar      0  batt      0  biodiesel     0  OSW     0  shed      0 MWh
+Writing constraints.:   0%|[38;2;128;191;255m          [0m| 0/56 [00:00<?, ?it/s]Writing constraints.:  64%|[38;2;128;191;255m██████▍   [0m| 36/56 [00:00<00:00, 348.98it/s]Writing constraints.: 100%|[38;2;128;191;255m██████████[0m| 56/56 [00:00<00:00, 359.78it/s]
+Writing continuous variables.:   0%|[38;2;128;191;255m          [0m| 0/14 [00:00<?, ?it/s]Writing continuous variables.: 100%|[38;2;128;191;255m██████████[0m| 14/14 [00:00<00:00, 954.20it/s]
+Set parameter Username
+Set parameter LicenseID to value <redacted>
+Academic license <redacted>- for non-commercial use only - expires 2027-11-13
+Read LP format model from file /private/var/folders/m5/zn2x_45s5yd_19nck4ynt3hh0000gp/T/linopy-problem-fhv52kkw.lp
+Reading time = 0.32 seconds
+obj: 388385 rows, 175217 columns, 755746 nonzeros
+Set parameter Threads to value 8
+sweep_2                            cost $  695.1M  RPS 100.0%  wave  1279.4 MW  new solar      0  batt      0  biodiesel     8  OSW     0  shed      0 MWh
+Writing constraints.:   0%|[38;2;128;191;255m          [0m| 0/56 [00:00<?, ?it/s]Writing constraints.:  64%|[38;2;128;191;255m██████▍   [0m| 36/56 [00:00<00:00, 334.36it/s]Writing constraints.: 100%|[38;2;128;191;255m██████████[0m| 56/56 [00:00<00:00, 355.82it/s]
+Writing continuous variables.:   0%|[38;2;128;191;255m          [0m| 0/14 [00:00<?, ?it/s]Writing continuous variables.: 100%|[38;2;128;191;255m██████████[0m| 14/14 [00:00<00:00, 954.34it/s]
+Set parameter Username
+Set parameter LicenseID to value <redacted>
+Academic license <redacted>- for non-commercial use only - expires 2027-11-13
+Read LP format model from file /private/var/folders/m5/zn2x_45s5yd_19nck4ynt3hh0000gp/T/linopy-problem-jwb59n7k.lp
+Reading time = 0.32 seconds
+obj: 388385 rows, 175217 columns, 755746 nonzeros
+Set parameter Threads to value 8
+sweep_2.5                          cost $  755.8M  RPS 100.0%  wave  1180.3 MW  new solar      0  batt      0  biodiesel    40  OSW     0  shed      0 MWh
+Writing constraints.:   0%|[38;2;128;191;255m          [0m| 0/56 [00:00<?, ?it/s]Writing constraints.:  66%|[38;2;128;191;255m██████▌   [0m| 37/56 [00:00<00:00, 366.92it/s]Writing constraints.: 100%|[38;2;128;191;255m██████████[0m| 56/56 [00:00<00:00, 372.08it/s]
+Writing continuous variables.:   0%|[38;2;128;191;255m          [0m| 0/14 [00:00<?, ?it/s]Writing continuous variables.: 100%|[38;2;128;191;255m██████████[0m| 14/14 [00:00<00:00, 974.51it/s]
+Set parameter Username
+Set parameter LicenseID to value <redacted>
+Academic license <redacted>- for non-commercial use only - expires 2027-11-13
+Read LP format model from file /private/var/folders/m5/zn2x_45s5yd_19nck4ynt3hh0000gp/T/linopy-problem-aki69sja.lp
+Reading time = 0.32 seconds
+obj: 388385 rows, 175217 columns, 755746 nonzeros
+Set parameter Threads to value 8
+sweep_3                            cost $  810.8M  RPS 100.0%  wave  1075.8 MW  new solar      0  batt      0  biodiesel    92  OSW     0  shed      0 MWh
+Writing constraints.:   0%|[38;2;128;191;255m          [0m| 0/56 [00:00<?, ?it/s]Writing constraints.:  64%|[38;2;128;191;255m██████▍   [0m| 36/56 [00:00<00:00, 359.77it/s]Writing constraints.: 100%|[38;2;128;191;255m██████████[0m| 56/56 [00:00<00:00, 375.38it/s]
+Writing continuous variables.:   0%|[38;2;128;191;255m          [0m| 0/14 [00:00<?, ?it/s]Writing continuous variables.: 100%|[38;2;128;191;255m██████████[0m| 14/14 [00:00<00:00, 1007.42it/s]
+Set parameter Username
+Set parameter LicenseID to value <redacted>
+Academic license <redacted>- for non-commercial use only - expires 2027-11-13
+Read LP format model from file /private/var/folders/m5/zn2x_45s5yd_19nck4ynt3hh0000gp/T/linopy-problem-ova3049s.lp
+Reading time = 0.32 seconds
+obj: 388385 rows, 175217 columns, 755746 nonzeros
+Set parameter Threads to value 8
+sweep_3.5                          cost $  860.7M  RPS 100.0%  wave   933.5 MW  new solar      0  batt    204  biodiesel   111  OSW     0  shed      0 MWh
+Writing constraints.:   0%|[38;2;128;191;255m          [0m| 0/56 [00:00<?, ?it/s]Writing constraints.:  64%|[38;2;128;191;255m██████▍   [0m| 36/56 [00:00<00:00, 345.89it/s]Writing constraints.: 100%|[38;2;128;191;255m██████████[0m| 56/56 [00:00<00:00, 363.39it/s]
+Writing continuous variables.:   0%|[38;2;128;191;255m          [0m| 0/14 [00:00<?, ?it/s]Writing continuous variables.: 100%|[38;2;128;191;255m██████████[0m| 14/14 [00:00<00:00, 991.71it/s]
+Set parameter Username
+Set parameter LicenseID to value <redacted>
+Academic license <redacted>- for non-commercial use only - expires 2027-11-13
+Read LP format model from file /private/var/folders/m5/zn2x_45s5yd_19nck4ynt3hh0000gp/T/linopy-problem-rp_z1azh.lp
+Reading time = 0.32 seconds
+obj: 388385 rows, 175217 columns, 755746 nonzeros
+Set parameter Threads to value 8
+sweep_4                            cost $  903.9M  RPS 100.0%  wave   852.3 MW  new solar      0  batt    365  biodiesel   110  OSW     0  shed      0 MWh
+Writing constraints.:   0%|[38;2;128;191;255m          [0m| 0/56 [00:00<?, ?it/s]Writing constraints.:  64%|[38;2;128;191;255m██████▍   [0m| 36/56 [00:00<00:00, 355.03it/s]Writing constraints.: 100%|[38;2;128;191;255m██████████[0m| 56/56 [00:00<00:00, 363.19it/s]
+Writing continuous variables.:   0%|[38;2;128;191;255m          [0m| 0/14 [00:00<?, ?it/s]Writing continuous variables.: 100%|[38;2;128;191;255m██████████[0m| 14/14 [00:00<00:00, 994.90it/s]
+Set parameter Username
+Set parameter LicenseID to value <redacted>
+Academic license <redacted>- for non-commercial use only - expires 2027-11-13
+Read LP format model from file /private/var/folders/m5/zn2x_45s5yd_19nck4ynt3hh0000gp/T/linopy-problem-490207vl.lp
+Reading time = 0.32 seconds
+obj: 388385 rows, 175217 columns, 755746 nonzeros
+Set parameter Threads to value 8
+sweep_5                            cost $  982.8M  RPS 100.0%  wave   750.4 MW  new solar      0  batt    443  biodiesel   133  OSW     0  shed      0 MWh
+Writing constraints.:   0%|[38;2;128;191;255m          [0m| 0/56 [00:00<?, ?it/s]Writing constraints.:  66%|[38;2;128;191;255m██████▌   [0m| 37/56 [00:00<00:00, 362.03it/s]Writing constraints.: 100%|[38;2;128;191;255m██████████[0m| 56/56 [00:00<00:00, 379.57it/s]
+Writing continuous variables.:   0%|[38;2;128;191;255m          [0m| 0/14 [00:00<?, ?it/s]Writing continuous variables.: 100%|[38;2;128;191;255m██████████[0m| 14/14 [00:00<00:00, 1000.57it/s]
+Set parameter Username
+Set parameter LicenseID to value <redacted>
+Academic license <redacted>- for non-commercial use only - expires 2027-11-13
+Read LP format model from file /private/var/folders/m5/zn2x_45s5yd_19nck4ynt3hh0000gp/T/linopy-problem-u4_lerm9.lp
+Reading time = 0.32 seconds
+obj: 388385 rows, 175217 columns, 755746 nonzeros
+Set parameter Threads to value 8
+sweep_6                            cost $ 1052.7M  RPS 100.0%  wave   663.0 MW  new solar      0  batt    478  biodiesel   160  OSW     0  shed      0 MWh
+Writing constraints.:   0%|[38;2;128;191;255m          [0m| 0/56 [00:00<?, ?it/s]Writing constraints.:  64%|[38;2;128;191;255m██████▍   [0m| 36/56 [00:00<00:00, 342.72it/s]Writing constraints.: 100%|[38;2;128;191;255m██████████[0m| 56/56 [00:00<00:00, 362.27it/s]
+Writing continuous variables.:   0%|[38;2;128;191;255m          [0m| 0/14 [00:00<?, ?it/s]Writing continuous variables.: 100%|[38;2;128;191;255m██████████[0m| 14/14 [00:00<00:00, 1002.58it/s]
+Set parameter Username
+Set parameter LicenseID to value <redacted>
+Academic license <redacted>- for non-commercial use only - expires 2027-11-13
+Read LP format model from file /private/var/folders/m5/zn2x_45s5yd_19nck4ynt3hh0000gp/T/linopy-problem-4nk8j6pg.lp
+Reading time = 0.32 seconds
+obj: 388385 rows, 175217 columns, 755746 nonzeros
+Set parameter Threads to value 8
+sweep_8                            cost $ 1165.3M  RPS 100.0%  wave   483.1 MW  new solar      0  batt    451  biodiesel   260  OSW     0  shed      0 MWh
