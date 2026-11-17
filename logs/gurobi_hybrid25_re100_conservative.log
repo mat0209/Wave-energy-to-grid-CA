@@ -1,0 +1,42 @@
+[25bus_re100-annual_2035_nuc_wave-conservative_gurobi] solving (~15 min, close other heavy apps)...
+wave: 5 sites, conservative 2035 capex 6.56 $M/MW, opex 0.0262 $M/MW-yr -> 645 k$/MW-yr, max 3,800 MW/site
+Set parameter Username
+Set parameter LicenseID to value 2884586
+Academic license - for non-commercial use only - expires 2027-11-13
+Read LP format model from file /private/var/folders/m5/zn2x_45s5yd_19nck4ynt3hh0000gp/T/linopy-problem-tsf_9mu7.lp
+Reading time = 11.04 seconds
+obj: 12153414 rows, 4961392 columns, 27119315 nonzeros
+Set parameter Threads to value 8
+Set parameter Method to value 2
+Set parameter Crossover to value 0
+Set parameter BarHomogeneous to value 1
+Set parameter BarConvTol to value 1e-05
+Set parameter OptimalityTol to value 0.0001
+Set parameter FeasibilityTol to value 0.001
+Set parameter ScaleFlag to value 1
+Set parameter Seed to value 123
+Set parameter AggFill to value 0
+Set parameter PreDual to value 0
+Set parameter GURO_PAR_BARDENSETHRESH to value 200
+[25bus_re100-annual_2035_nuc_wave-conservative_gurobi] solved in 8.6 min, peak RAM 6.2 GB, objective 14,700,014,854 $
+Wrote tables and figures to /Users/bryanmendoza/Downloads/_gh_compare/repo/outputs/25bus_re100-annual_2035_nuc_wave-conservative_gurobi
+system cost G$               23.51
+CO2 in-state Mt              13.72
+CO2 incl. imports Mt         18.49
+CO2 price $/t                 0.00
+avg CA price $/MWh           14.18
+solar GW                    172.29
+new battery GW               54.44
+gas (CCGT+OCGT+CCS) GW       13.32
+exports TWh                  18.77
+wave GW                       0.00
+wave TWh                      0.00
+renewable share %            93.60
+renewable share % hourly     82.82
+        built_MW  energy_TWh  capacity_factor  curtailed_%  cable_MW
+WECC_F       0.0         0.0              NaN          NaN       0.0
+WECC_G       0.0         0.0              NaN          NaN       0.0
+WECC_H       0.0         0.0              NaN          NaN       0.0
+WECC_I       0.0         0.0              NaN          NaN       0.0
+WECC_J       0.0         0.0              NaN          NaN       0.0
+TOTAL        0.0         0.0              NaN          NaN       0.0

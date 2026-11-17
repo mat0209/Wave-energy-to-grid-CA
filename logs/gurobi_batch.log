@@ -1,0 +1,81 @@
+=== 22:56 zones4 base none
+system cost G$              16.72
+CO2 price $/t               50.43
+wave GW                      0.00
+wave TWh                     0.00
+=== 22:58 zones4 base aggressive
+system cost G$              16.72
+CO2 price $/t               50.43
+wave GW                      0.00
+wave TWh                     0.00
+=== 23:00 zones4 base moderate
+system cost G$              16.72
+CO2 price $/t               50.43
+wave GW                      0.00
+wave TWh                     0.00
+=== 23:02 zones4 base conservative
+system cost G$              16.72
+CO2 price $/t               50.43
+wave GW                      0.00
+wave TWh                     0.00
+=== 23:04 zones4 re100 none
+system cost G$               21.54
+CO2 price $/t                 0.00
+wave GW                       0.00
+wave TWh                      0.00
+=== 23:06 zones4 re100 aggressive
+system cost G$               21.54
+CO2 price $/t                 0.00
+wave GW                       0.00
+wave TWh                      0.00
+=== 23:09 zones4 re100 moderate
+system cost G$               21.54
+CO2 price $/t                 0.00
+wave GW                       0.00
+wave TWh                      0.00
+=== 23:11 zones4 re100 conservative
+system cost G$               21.54
+CO2 price $/t                 0.00
+wave GW                       0.00
+wave TWh                      0.00
+=== 23:14 hybrid25 base none
+system cost G$              18.68
+CO2 price $/t               45.87
+wave GW                      0.00
+wave TWh                     0.00
+=== 23:20 hybrid25 base aggressive
+system cost G$              18.68
+CO2 price $/t               45.87
+wave GW                      0.00
+wave TWh                     0.00
+=== 23:26 hybrid25 base moderate
+system cost G$              18.68
+CO2 price $/t               45.87
+wave GW                      0.00
+wave TWh                     0.00
+=== 23:31 hybrid25 base conservative
+system cost G$              18.68
+CO2 price $/t               45.87
+wave GW                      0.00
+wave TWh                     0.00
+=== 23:37 hybrid25 re100 none
+system cost G$               23.51
+CO2 price $/t                 0.00
+wave GW                       0.00
+wave TWh                      0.00
+=== 23:45 hybrid25 re100 aggressive
+system cost G$               23.51
+CO2 price $/t                 0.00
+wave GW                       0.00
+wave TWh                      0.00
+=== 23:53 hybrid25 re100 moderate
+system cost G$               23.51
+CO2 price $/t                 0.00
+wave GW                       0.00
+wave TWh                      0.00
+=== 00:03 hybrid25 re100 conservative
+system cost G$               23.51
+CO2 price $/t                 0.00
+wave GW                       0.00
+wave TWh                      0.00
+=== done 00:12

@@ -1,0 +1,32 @@
+unit,plant,kind,fuel,p_nom,min_mw,online,lat,lon,energy_mwh,n_units,heat_rate,p_min_pu
+Kahe K1,Kahe,steam,lsfo,77.9,20.0,1963.0,21.356395,-158.128853,,,10700.0,0.25673940949935814
+Kahe K2,Kahe,steam,lsfo,78.1,30.0,1964.0,21.356395,-158.128853,,,10700.0,0.38412291933418696
+Kahe K3,Kahe,steam,lsfo,82.1,20.0,1970.0,21.356395,-158.128853,,,10700.0,0.243605359317905
+Kahe K4,Kahe,steam,lsfo,87.2,20.0,1972.0,21.356395,-158.128853,,,10700.0,0.2293577981651376
+Kahe K5,Kahe,steam,lsfo,128.1,55.0,1974.0,21.356395,-158.128853,,,10300.0,0.429352068696331
+Kahe K6,Kahe,steam,lsfo,128.7,45.0,1981.0,21.356395,-158.128853,,,10300.0,0.3496503496503497
+Waiau W10,Waiau,ct,diesel,51.2,6.0,1973.0,21.388997,-157.961518,,,13500.0,0.1171875
+Waiau W3,Waiau,steam,lsfo,47.2,20.0,1947.0,21.388997,-157.961518,,,12800.0,0.423728813559322
+Waiau W4,Waiau,steam,lsfo,47.7,20.0,1950.0,21.388997,-157.961518,,,12800.0,0.4192872117400419
+Waiau W5,Waiau,steam,lsfo,51.9,23.0,1959.0,21.388997,-157.961518,,,12800.0,0.4431599229287091
+Waiau W6,Waiau,steam,lsfo,51.8,20.0,1961.0,21.388997,-157.961518,,,12800.0,0.3861003861003861
+Waiau W7,Waiau,steam,lsfo,77.8,20.0,1966.0,21.388997,-157.961518,,,11300.0,0.2570694087403599
+Waiau W8,Waiau,steam,lsfo,77.8,20.0,1968.0,21.388997,-157.961518,,,11300.0,0.2570694087403599
+Waiau W9,Waiau,ct,diesel,51.2,6.0,1973.0,21.388997,-157.961518,,,13500.0,0.1171875
+Campbell Industrial Park CIP1,Campbell Industrial Park,ct,diesel,113.0,42.0,2009.0,21.3025,-158.101667,,,11800.0,0.37168141592920356
+HNL Emergency Power Facility AP1,HNL Emergency Power Facility,ice,biodiesel,2.5,1.0,2017.0,21.336389,-157.919444,,,10000.0,0.0
+HNL Emergency Power Facility AP2,HNL Emergency Power Facility,ice,biodiesel,2.5,1.0,2017.0,21.336389,-157.919444,,,10000.0,0.0
+HNL Emergency Power Facility AP3,HNL Emergency Power Facility,ice,biodiesel,2.5,1.0,2017.0,21.336389,-157.919444,,,10000.0,0.0
+HNL Emergency Power Facility AP4,HNL Emergency Power Facility,ice,biodiesel,2.5,1.0,2017.0,21.336389,-157.919444,,,10000.0,0.0
+Schofield Generating Station S1,Schofield Generating Station,ice,biodiesel,8.4,2.5,2018.0,21.4785,-158.0581,,,8900.0,0.0
+Schofield Generating Station S2,Schofield Generating Station,ice,biodiesel,8.4,2.5,2018.0,21.4785,-158.0581,,,8900.0,0.0
+Schofield Generating Station S3,Schofield Generating Station,ice,biodiesel,8.4,2.5,2018.0,21.4785,-158.0581,,,8900.0,0.0
+Schofield Generating Station S4,Schofield Generating Station,ice,biodiesel,8.4,2.5,2018.0,21.4785,-158.0581,,,8900.0,0.0
+Schofield Generating Station S5,Schofield Generating Station,ice,biodiesel,8.4,2.5,2018.0,21.4785,-158.0581,,,8900.0,0.0
+Schofield Generating Station S6,Schofield Generating Station,ice,biodiesel,8.4,2.5,2018.0,21.4785,-158.0581,,,8900.0,0.0
+Kalaeloa Cogen Plant train 1,Kalaeloa Cogen Plant,cc,lsfo,110.0,45.0,1989.0,21.302106,-158.096318,,,8800.0,0.4090909090909091
+Kalaeloa Cogen Plant train 2,Kalaeloa Cogen Plant,cc,lsfo,110.0,45.0,1991.0,21.302106,-158.096318,,,8800.0,0.4090909090909091
+H Power,H Power,msw,msw,86.0,10.0,2013.0,21.300036,-158.098615,,2.0,18000.0,0.0
+solar_existing,solar_existing,solar,,391.70000000000005,3.3000000000000003,2025.0,21.441147852941167,-158.03205088235288,,34.0,,0.0
+onwind_existing,onwind_existing,onwind,,126.6,1.0,2020.0,21.652730666666667,-157.99527766666665,,3.0,,0.0
+battery_existing,battery_existing,battery,,378.4,1.9,2025.0,21.42435811111111,-158.03514655555557,1414.9,9.0,,0.0
